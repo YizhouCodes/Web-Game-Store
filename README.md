@@ -2,68 +2,68 @@
 
 1) Team Members
     - Dawid Worek (795674)
-    - Ye Yizhou ()
+    - Ye Yizhou (795852)
     - Parinaz Avaznejad (795836)
 
 ****************************************************************************************************************
 
 2) Features:
 
-1)Authentication :
- - Login, logout and register (both as player or developer)
- - Edit Profile (Both as developer or player)
- - Email validation
- - Pasword Recovery 
+1) Authentication :
+ - Login, logout and registration (both as a player and a developer)
+ - Edit profile (both as a developer and a player)
+ - Email validation after signing up
+ - Password recovery 
  - 3rd party login (OpenID , Gmail)
 
 2) Player functionalities
- - Buy games 
- - Play games
- - Remove games from his/her own list
- - Add Reviews, Rating
+ - Purchasing games
+ - Playing games
+ - Removing games from one's own list
+ - Reviewing games and also rating them
  - Searching for games
  - Security restrictions
- - Filtering Games
- - List Player's Games
+ - Filtering games by game categories, price and name
+ - Listing games owned by oneself
 
 3) Developer functionalities
- - Add a game (URL)
-	- Add a description or Screenshot
-	- Assigning a category for the game
- - set price for that game or makes the game free
- - Manage the game 
-	- Modify the description or Screenshots
-	- Modify Game
-	- Remove the Game
- 	- Change Price
- - Give feedback to player's reviews
+ - Adding a game (URL)
+	- Adding a description or a screenshot
+	- Assigning categories for the game
+ - Setting a price for a game (or free)
+ - Managing a game 
+	- Modifying the description or screenshots
+	- Modify the game
+	- Removing the game
+ 	- Changing the price
+ - Providing feedback to player reviews
  - Sales statistics
  - Security restrictions
 
 4) Game/service interaction
- - Implement Game and the game service communication (Score, Save, Load , Error, Setting, Load request)
+ - Implement game and the game service communication (Score, Save, Load , Error, Setting, Load request)
 
 5) Creating a game
 
 6) RESTful API
 	- Searching for games
-	- Filtering Games
-	- Showing high scores for a game
+	- Filtering games
+	- Displaying highscores for a game
 
 
 ****************************************************************************************************************
 
 3) 
 Extra Features : 
-	- Edit Profile (Both as developer or player)
-	- Email validation
-	- Pasword Recovery
-	- Remove games from his/her own list
-	- Add Reviews, Rating
-	- Filtering Games
-	- Add a description or Screenshot
-	- Assigning a category for the game
-	- Give feedback to player's reviews
+	- Edit profile (both as a developer and a player)
+	- Email validation after signing up
+	- Pasword recovery
+	- Remove games from one's own list
+	- Reviewing games and also rating them
+	- Filtering games by game categories, price and name
+	- Adding a description or a screenshott
+	- Assigning categories for the game
+	- Providing feedback to player reviews
 
 ****************************************************************************************************************
 
@@ -95,44 +95,45 @@ Authentication Features:
 
 4) Using 3rd party Django app like social-django or django-socialregisteration for 3rd party login (OpenID , Gmail)
 
-5) Edit Profile will be implemented from scretch
+5) Edit Profile will be implemented from scratch
 
 ****************************************************************************************************************
 
-Player Functionalities features:
+Player functionality features:
 
 1) URLs for Player functionalities
 	- home/
 	- game/<game_id>/<game_name>
 	- games
 
-In home url, player profile will be displayed and we will list Player's game, and player is able to remove game from the list. 
-Also information about all bought games like Date, Price, Payment information will be shown. When user select a game in list, he will be 
-redirected to game/<game_id>/<game_name> and can play the chosen game and add reviews
-and rating to the game. In game/<game_id>/<game_name> user can buy the game. In "games" URL
+In home url, a player profile is displayed along with the games that the player in question owns.
+The user can remove these games from their list if they choose so.
+The user also has access to a purchase history page. Upon selecting a game from their list, they will be 
+redirected to game/<game_id>/<game_name> and can either proceed to play the chosen game or add textual reviews
+coupled with numeric ratings. In game/<game_id>/<game_name> the user can buy the game. In "games" URL
 user can see all the available games, and can filter or search games.
 
-** In home url, when user is not authenticated, searching for games is only allowed.
+** In home url, when user is not authenticated, only searching the games is permitted.
 
 2) This part will be implemented based on MVC (Model, View, Controller) pattern.
 
 ****************************************************************************************************************
 
-Developer functionalities features
+Developer functionality features
 
 1) URLs for Developer functionalities
 	- home/
 	- games/add/
 	- game/<game_id>/<game_name>
 
-In home url, developer profile, list of published game by developer will be displayed.
-Also, developer can add the URL of the game and he/she wil be redirected to /games/add
-URL. In games/add URL, developer can add description and screenshots of the game,
-assign a category to the game, and set a price.
-In game/<game_id>/<game_name>, develper can manage the game like modifying the descriptions 
-and screenshots, update game's URL or change price. On this page the developers
-see playe's reviews and can write a response to them. Here they also see
-sales statisctics.
+In home url, developer profile, list of published games by the developer will be displayed.
+Also, developer can add the URL of the game and they will be redirected to /games/add
+URL. In games/add URL, the developer can set the description and upload screenshots of the game,
+assign categories to the game, and set a price.
+In game/<game_id>/<game_name>, the developer can manage the game by modifying the descriptions 
+and screenshots, updating the game's URL or changing the price. On this page the developers
+see the player reviews and can write responses to them. Here they also see
+sales statistics.
 
 2) This part is implemented in the same pattern as player's functionalities.
 
@@ -149,7 +150,7 @@ filtered by adding two optional parameters: 'c' for categories and 'sort'
 for sorting (by games' rating - from the best rated game to the worst or 
 prices - from the cheapest to the most expensive). RESTful API with address
 'apiv1/highscore?g=game_id&n=10' enables us to get the 'n' highest scores
-for the specific game, where 'n' is optional parameter (defeult value is 10).
+for the specific game, where 'n' is optional parameter (default value is 10).
 
 2) Requests are handled by Django and responses are in JSON format.
 
@@ -228,31 +229,31 @@ Timetable:
 		Expected Deadline= 17.01.2020
 		Tasks: 
 			1) Database Deployment
-			2) Login, Logout, and registeration
-			3) Password Recovery
-			4) Email Validation
-			5) Edit Profile
+			2) Login, Logout, and registration
+			3) Password recovery
+			4) Email validation
+			5) Edit profile
 
 	Milestone 2:
 		Title = Basic Developer and players Functionalities 
 		Expected Deadline = 24.01.2020
 		Tasks:
-			1) Add a game (URL) with description, screenshots, category, and price
-			2) Manage the game (Modify game, description, and price)
-			3) Remove the game
-			4) Buy games
-			5) List player's games
-			6) Remove games from his/her own list
-			7) Play games
+			1) Adding a game (URL) with description, screenshots, category, and price
+			2) Managing the game (Modify game, description, and price)
+			3) Removing the game
+			4) Purchasing games
+			5) Listing one's games
+			6) Removing a game from their list
+			7) Playing games
 	
 	Milestone 3:
 		Title = Finishing Developer and players Functionalities
 		Expected Deadline = 31.01.2020
 		Tasks: 
-			1) Add Reviews, Rating for the game
-			2) Give feedback to player's reviews
+			1) Adding reviews, ratings for the game
+			2) Providing feedback to player reviews
  			3) Generating sales statistics
-			4) RESTfule APIs for (Searching games, Filtering games, and showing highscores
+			4) RESTful APIs for (Searching games, Filtering games, and showing highscores
 			5) Game/Service Interactions
 
 	Milestone 4:
@@ -261,7 +262,7 @@ Timetable:
 		Tasks:
 			1) 3rd party login
 			2) Creating a game
-			3) Start Testing
+			3) Testing
 			4) Fixing Bugs
 
 	Expected Finish Date = 10.02.2020
