@@ -53,8 +53,7 @@
 
 ****************************************************************************************************************
 
-3) 
-Extra Features : 
+3) Extra Features : 
 	- Edit profile (both as a developer and a player)
 	- Email validation after signing up
 	- Pasword recovery
@@ -115,7 +114,7 @@ user can see all the available games, and can filter or search games.
 
 ** In home url, when user is not authenticated, only searching the games is permitted.
 
-2) This part will be implemented based on MVC (Model, View, Controller) pattern.
+2) This part will be implemented based on Django's MVT (Model, View, Template) pattern.
 
 ****************************************************************************************************************
 
