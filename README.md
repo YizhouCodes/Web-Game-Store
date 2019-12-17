@@ -157,7 +157,7 @@ for the specific game, where 'n' is optional parameter (default value is 10).
 
 ****************************************************************************************************************
 
-### Plan on working on the project
+### 5 Plan on working on the project
 We're going to use Trello for tasks managment and GitLab as a server for
 git version control system. Every week we're going to meet to discuss issues,
 future work and current state of the project. If it is possible, during
@@ -166,9 +166,10 @@ working on implementation after semester break.
 
 ****************************************************************************************************************
 
-### Models
+### 6 Initial draft of models
 
 1) Game Model: 
+
 	id = integerField(unique ,primary_key)
 	
 	title = charField()
@@ -191,6 +192,7 @@ working on implementation after semester break.
 	
 
 2) Review Model: 
+
 	id = IntegerField(unique, primary_key)
 	
 	gameId = foreign_key
@@ -202,11 +204,13 @@ working on implementation after semester break.
 	description = textField()
 
 3) Review-game Model:
+
 	gameId = foreign_key
 	
 	reviewId = foreign_key
 
 4) Player Model (We are extending abstractUser model from Django framework):
+
 	id = IntegerField(unique, primary_key)
 	
 	username = charField()
@@ -217,6 +221,7 @@ working on implementation after semester break.
 	
 
 5) Game-player Model: 
+
 	gameId = IntegerField()
 	
 	playerId = IntegerField()
@@ -225,7 +230,8 @@ working on implementation after semester break.
 	
 	gameState = textField()
 
-6) Developer Model (We are extending abstractUser model from Django framework)
+6) Developer Model (We are extending abstractUser model from Django framework):
+
 	id = IntegerField(unique, primary_key)
 	
 	username = charField()
