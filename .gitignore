@@ -1,2 +1,3 @@
 wsd_project/__pycache__
 store/__pycache__
+db.sqlite3
