@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku
+
+# Just pass if code isn't running in heroku
+try:
+    import django_heroku
+except:
+    pass
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'store'
 ]
 
 MIDDLEWARE = [
@@ -100,6 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "store.GeneralUser" 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -121,4 +128,8 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
-django_heroku.settings(locals())
+# Just pass if code isn't running in heroku
+try:
+    django_heroku.settings(locals())
+except:
+    pass

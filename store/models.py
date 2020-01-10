@@ -1,3 +1,57 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
-# Create your models here.
+class GeneralUser(AbstractUser):
+    # Username: get_username()
+    # Email: get_email_field_name()
+
+    # DO NOT CHANGE the order
+    PLAYER = 1
+    DEVELOPER = 2
+    USER_TYPE_CHOICES = (
+        (PLAYER, 'Player'),
+        (DEVELOPER, 'Developer'),
+    )
+
+    date_of_birth = models.DateField()
+    payment_info = models.TextField()
+
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+
+    REQUIRED_FIELDS = ['payment_info', 'date_of_birth']
+
+    def is_player():
+        return PLAYER == USER_TYPE_CHOICES[0][0]
+
+    def is_developer():
+        return DEVELOPER == USER_TYPE_CHOICES[1][0]
+    
+
+class Game(models.Model):
+    title = models.CharField(max_length=256)
+    developer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    description = models.TextField()
+    dateOfUpload = models.DateField()
+    screenshots = models.URLField()
+    averageRating = models.FloatField()
+    category = models.CharField(max_length=32)
+    price = models.FloatField()
+    minimumAge = models.IntegerField()
+
+class Review(models.Model):
+    gameId = models.ForeignKey('Game', on_delete=models.CASCADE)
+    playerId = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+    description = models.TextField()
+
+class ReviewsGames(models.Model):
+    gameId = models.ForeignKey('Game', on_delete=models.CASCADE)
+    reviewId = models.ForeignKey('Review', on_delete=models.CASCADE)
+
+class PlayersGames(models.Model):
+    gameId = models.ForeignKey('Game', on_delete=models.CASCADE)
+    playerId = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    score = models.FloatField()
+    gameState = models.TextField()
+
