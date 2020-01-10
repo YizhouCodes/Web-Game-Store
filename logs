@@ -1,0 +1,35 @@
+2020-01-10T12:11:00.886613+00:00 app[api]: Release v1 created by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:11:00.886613+00:00 app[api]: Initial release by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:11:01.036141+00:00 app[api]: Enable Logplex by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:11:01.036141+00:00 app[api]: Release v2 created by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:11:32.679296+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/" host=radiant-refuge-85599.herokuapp.com request_id=48b6eb99-6bee-4222-8742-0578d1a42fb3 fwd="86.50.147.41" dyno= connect= service= status=502 bytes= protocol=https
+2020-01-10T12:11:32.866762+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/favicon.ico" host=radiant-refuge-85599.herokuapp.com request_id=2c9862ce-dcfc-4cc2-a69a-9fbc3d71915d fwd="86.50.147.41" dyno= connect= service= status=502 bytes= protocol=https
+2020-01-10T12:11:36.554338+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/" host=radiant-refuge-85599.herokuapp.com request_id=19a3a196-5260-424c-996a-93be5a5f0d02 fwd="130.233.87.134" dyno= connect= service= status=502 bytes= protocol=http
+2020-01-10T12:11:36.838182+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/favicon.ico" host=radiant-refuge-85599.herokuapp.com request_id=c09fdf2d-6996-47d9-a20f-5d94bd477e30 fwd="130.233.87.134" dyno= connect= service= status=502 bytes= protocol=http
+2020-01-10T12:11:47.475358+00:00 heroku[router]: at=info code=H81 desc="Blank app" method=GET path="/" host=radiant-refuge-85599.herokuapp.com request_id=fc34b53e-3d07-42a5-a46a-5bd48259883a fwd="130.233.87.134" dyno= connect= service= status=502 bytes= protocol=http
+2020-01-10T12:12:23.000000+00:00 app[api]: Build started by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:12:53.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/e216b366-c75c-4d71-87da-2c9c5f1a7366/activity/builds/f2b884f1-48c4-4909-b112-52739c57cf6a
+2020-01-10T12:15:00.000000+00:00 app[api]: Build started by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:15:32.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/e216b366-c75c-4d71-87da-2c9c5f1a7366/activity/builds/05bef7f9-4b61-4d76-af47-391b195b57fc
+2020-01-10T12:18:19.000000+00:00 app[api]: Build started by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:18:51.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/e216b366-c75c-4d71-87da-2c9c5f1a7366/activity/builds/b8904a1f-06a8-44f2-80ff-4f24e4e157fc
+2020-01-10T12:20:50.000000+00:00 app[api]: Build started by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:21:22.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/e216b366-c75c-4d71-87da-2c9c5f1a7366/activity/builds/446ffd41-503d-4c26-9087-7ab8d1c878c8
+2020-01-10T12:22:23.000000+00:00 app[api]: Build started by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:22:57.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/e216b366-c75c-4d71-87da-2c9c5f1a7366/activity/builds/0fe6462c-c616-40d7-952d-3f28ef6bb5a5
+2020-01-10T12:25:44.000000+00:00 app[api]: Build started by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:26:16.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/e216b366-c75c-4d71-87da-2c9c5f1a7366/activity/builds/a5b40e8d-f4e2-4f87-b7be-5782c90b3f2b
+2020-01-10T12:27:35.000000+00:00 app[api]: Build started by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:28:07.000000+00:00 app[api]: Build failed -- check your build output: https://dashboard.heroku.com/apps/e216b366-c75c-4d71-87da-2c9c5f1a7366/activity/builds/a10f30eb-34c3-4cff-bdb8-670f698f7d0a
+2020-01-10T12:29:26.000000+00:00 app[api]: Build started by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:30:12.959814+00:00 app[api]: Release v4 created by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:30:12.959814+00:00 app[api]: @ref:postgresql-transparent-78360 completed provisioning, setting DATABASE_URL. by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:30:12.942248+00:00 app[api]: Attach DATABASE (@ref:postgresql-transparent-78360) by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:30:12.942248+00:00 app[api]: Running release v3 commands by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:30:13.226389+00:00 app[api]: Release v5 created by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:30:13.226389+00:00 app[api]: Deploy 934670e3 by user parinaz.avaznejad@aalto.fi
+2020-01-10T12:30:22.000000+00:00 app[api]: Build succeeded
+2020-01-10T12:30:32.464476+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/" host=radiant-refuge-85599.herokuapp.com request_id=6f90e360-9b84-43b0-8963-e1ed0d91a47d fwd="130.233.87.134" dyno= connect= service= status=503 bytes= protocol=http
+2020-01-10T12:31:20.883056+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/" host=radiant-refuge-85599.herokuapp.com request_id=f40c52b3-65b3-4363-ab68-5351efd717b1 fwd="86.50.146.26" dyno= connect= service= status=503 bytes= protocol=https
+2020-01-10T12:31:24.918114+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/" host=radiant-refuge-85599.herokuapp.com request_id=a205c1a4-e7af-4eda-8c3f-31baf2123ece fwd="130.233.87.134" dyno= connect= service= status=503 bytes= protocol=http
+2020-01-10T12:32:00.351725+00:00 heroku[router]: at=error code=H14 desc="No web processes running" method=GET path="/" host=radiant-refuge-85599.herokuapp.com request_id=2a01cfd5-2707-44cd-856e-ff171f28ab9a fwd="130.233.87.134" dyno= connect= service= status=503 bytes= protocol=http
