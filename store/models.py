@@ -22,10 +22,10 @@ class GeneralUser(AbstractUser):
     REQUIRED_FIELDS = ['payment_info', 'date_of_birth']
 
     def is_player():
-        return PLAYER == USER_TYPE_CHOICES[0][0]
+        return user_type == PLAYER
 
     def is_developer():
-        return DEVELOPER == USER_TYPE_CHOICES[1][0]
+        return user_type == DEVELOPER
     
 
 class Game(models.Model):
@@ -45,13 +45,8 @@ class Review(models.Model):
     rating = models.IntegerField()
     description = models.TextField()
 
-class ReviewsGames(models.Model):
-    gameId = models.ForeignKey('Game', on_delete=models.CASCADE)
-    reviewId = models.ForeignKey('Review', on_delete=models.CASCADE)
-
 class PlayersGames(models.Model):
     gameId = models.ForeignKey('Game', on_delete=models.CASCADE)
     playerId = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     score = models.FloatField()
     gameState = models.TextField()
-
