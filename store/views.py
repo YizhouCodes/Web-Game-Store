@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.contrib.auth.decorators import login_required
+import json
 
 @require_http_methods(["GET", "POST"])
 #@login_required(login_url='/accounts/login/') # TODO to uncomment when user will be created
@@ -11,13 +12,7 @@ def edit_profile(request):
             "current_username": "current-username-here",
             "is_developer": True,
             "current_payment_info": "vjreinvuierji834=",
-            "updated": False,
         }
-
-        has_been_updated_successfully = request.GET.get('updated')
-        if has_been_updated_successfully:
-            ctx["updated"] = True
-            ctx["has_been_updated_successfully"] = has_been_updated_successfully
 
         return render(request, 'edit_profile.html', context=ctx)
     elif request.method == 'POST':
@@ -36,10 +31,10 @@ def edit_profile(request):
             # TODO Commit update
             try:
                 #current_user.save()
-                return HttpResponseRedirect(".?updated=true")
+                return HttpResponse(json.dumps({"success": True}))
             except:
-                return HttpResponseRedirect(".?updated=false")
+                return HttpResponse(json.dumps({"success": False}))
         else:
             # Not valid request, do nothing
-            return HttpResponseRedirect(".?updated=false")
+            return HttpResponse(json.dumps({"success": False}))
 

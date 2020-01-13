@@ -1,34 +1,33 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Edit profile{% endblock %}
 
 {% block header %}
 {{ block.super }}
-
+<script type="text/javascript" src="{% static 'scripts/edit_profile.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 
-<div class="container">
+<div class="container" id="mainContainer">
 
-    {% if updated and has_been_updated_successfully %}
-    <div class="alert alert-success" role="alert" id="alert">
+    <div class="alert alert-success d-none" role="alert" id="alertSuccess">
         Profile updated!
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    {% elif updated and not has_been_updated_successfully %}
-    <div class="alert alert-danger" role="alert" id="alert">
+    
+    <div class="alert alert-danger d-none" role="alert" id="alertFailure">
         Fail to update profile!
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    {%endif%}
 
     <h2>Edit your profile here, {{ current_username }}</h2>
-    <form class="form-horizontal" action="." method="POST">{% csrf_token %}
+    <form class="form-horizontal" id="updateForm">{% csrf_token %}
       <div class="form-group">
         <label class="control-label col-sm-2" for="usrName">Username:</label>
         <div class="col-sm-10">
@@ -49,7 +48,7 @@
 
       <div class="form-group">        
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-dark">Update</button>
+          <button type="submit" class="btn btn-dark" id="updateProfileButton">Update</button>
         </div>
       </div>
     </form>
