@@ -9,6 +9,38 @@
 
 {% block content %}
 
-<b> blablabla </b>
+<div class="container">
+
+    {% if updated}
+    
+    {%endif%}
+
+    <h2>Edit your profile here, {{ current_username }}</h2>
+    <form class="form-horizontal" action="." method="POST">{% csrf_token %}
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="usrName">Username:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="usrName" placeholder="Enter new username" name="usrName" value="{{ current_username }}">
+        </div>
+      </div>
+      
+      {% if is_developer %}
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="paymentInfo">Seller ID:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="paymentInfo" placeholder="Enter new seller ID" name="paymentInfo" value="{{ current_payment_info }}">
+        </div>
+      </div>
+      {% else %}
+      <!-- user is a player, what they can edit except username? -->
+      {%endif%}
+
+      <div class="form-group">        
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-dark">Update</button>
+        </div>
+      </div>
+    </form>
+</div>
 
 {% endblock %}
