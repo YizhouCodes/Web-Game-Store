@@ -11,8 +11,20 @@
 
 <div class="container">
 
-    {% if updated}
-    
+    {% if updated and has_been_updated_successfully %}
+    <div class="alert alert-success" role="alert" id="alert">
+        Profile updated!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% elif updated and not has_been_updated_successfully %}
+    <div class="alert alert-danger" role="alert" id="alert">
+        Fail to update profile!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     {%endif%}
 
     <h2>Edit your profile here, {{ current_username }}</h2>

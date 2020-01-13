@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.contrib.auth.decorators import login_required
 
@@ -18,7 +18,7 @@ def edit_profile(request):
         if has_been_updated_successfully:
             ctx["updated"] = True
             ctx["has_been_updated_successfully"] = has_been_updated_successfully
-            
+
         return render(request, 'edit_profile.html', context=ctx)
     elif request.method == 'POST':
         usr_name = request.POST.get('usrName')
@@ -40,5 +40,6 @@ def edit_profile(request):
             except:
                 return HttpResponseRedirect(".?updated=false")
         else:
-            pass # Not valid request, do nothing
+            # Not valid request, do nothing
+            return HttpResponseRedirect(".?updated=false")
 
