@@ -15,7 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from store import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/signup_player/', views.register_player),
+    path('accounts/signup_developer/',views.register_developer),
+    path('accounts/password_recovery/', views.password_reset),
+    path('accounts/password_recovery//done/', views.password_reset_done),
+    path('reset/<uidb64>/<token>/', views.password_reset_confirm),
+    path('reset/done/', views.password_reset_done)
 ]

@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -106,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "store.GeneralUser" 
+AUTH_USER_MODEL = "store.GeneralUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -127,6 +128,25 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
+
+############################################
+############### EMAIL BACKEND ##############
+############################################
+
+
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+
+EMAIL_HOST_USER="parinaz.avaznejad@gmail.com"
+EMAIL_HOST_PASSWORD="12345678"
+
+############## END EMAIL BACKEND ##########
+
+# CRISPY TEMPLATE
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 # Just pass if code isn't running in heroku
 try:
