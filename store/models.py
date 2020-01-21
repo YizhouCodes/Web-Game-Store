@@ -21,11 +21,11 @@ class GeneralUser(AbstractUser):
 
     REQUIRED_FIELDS = ['payment_info', 'date_of_birth', 'email']
 
-    def is_player():
-        return user_type == PLAYER
+    def is_player(self):
+        return self.user_type == GeneralUser.PLAYER
 
-    def is_developer():
-        return user_type == DEVELOPER
+    def is_developer(self):
+        return self.user_type == GeneralUser.DEVELOPER
     
 
 class Game(models.Model):

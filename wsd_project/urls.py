@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib.auth import views
 from django.contrib import admin
 from django.urls import path, include
-from store.views import edit_profile, index, page_logout
+from store.views import edit_profile, index, page_logout, add_game
 
 urlpatterns = [
     path('admin/', admin.site.urls), # TODO remove later
@@ -25,5 +25,6 @@ urlpatterns = [
     path('accounts/edit_profile/', edit_profile),
     path('accounts/logout/', page_logout, name="logout"),
     path('accounts/login/', views.LoginView.as_view(), name="login"),
+    path('games/add/', add_game),
 ]
 
