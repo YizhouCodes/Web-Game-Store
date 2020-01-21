@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from store.views import edit_profile
+from store.views import edit_profile, show_game, show_payment_error, show_payment_cancel
 
 urlpatterns = [
     path('admin/', admin.site.urls), # TODO remove later
 
-    path('accounts/edit_profile/', edit_profile)
+    path('accounts/edit_profile/', edit_profile),
+    path('game/<int:game_id>/<str:game_name>', show_game),
+    path('/payment_error', show_payment_error),
+    path('/payment_cancelled', show_payment_cancel),
 ]

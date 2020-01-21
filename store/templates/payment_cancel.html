@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit profile{% endblock %}
+
+{% block header %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container" id="mainContainer">
+    
+    <h2>Sorry, {{ current_username }}!</h2>
+
+    <div class="alert alert-danger d-none" role="alert" id="alertCancel">
+        You cancel your payment. <a href="/home">Go back to home</a>
+    </div>
+
+</div>
+
+{% endblock %}
