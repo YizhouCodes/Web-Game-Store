@@ -17,9 +17,9 @@ class GeneralUser(AbstractUser):
     date_of_birth = models.DateField()
     payment_info = models.TextField()
 
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=PLAYER)
 
-    REQUIRED_FIELDS = ['payment_info', 'date_of_birth']
+    REQUIRED_FIELDS = ['payment_info', 'date_of_birth', 'email']
 
     def is_player():
         return user_type == PLAYER
