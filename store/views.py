@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 import json
 
 @require_http_methods(["GET", "POST"])
@@ -40,3 +42,8 @@ def edit_profile(request):
 
 def index(request):
     return render(request, 'index.html', {})
+
+def page_logout(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect('home')
