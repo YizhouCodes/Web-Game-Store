@@ -37,3 +37,6 @@ def edit_profile(request):
         else:
             # Not valid request, do nothing
             return HttpResponse(json.dumps({"success": False}))
+
+def index(request):
+    return render(request, 'index.html', {})
