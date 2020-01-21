@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add a game{% endblock %}
+
+{% block header %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container" id="mainContainer">
+    <div class="alert alert-danger d-none" role="alert" id="alertFailure">
+        You are not the developer!!!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+{% endblock %}
