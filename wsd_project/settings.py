@@ -128,6 +128,8 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
+LOGIN_REDIRECT_URL = '/'
+
 # Just pass if code isn't running in heroku
 try:
     django_heroku.settings(locals())
