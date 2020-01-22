@@ -6,13 +6,15 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from urllib.parse import urlencode
 import json.scanner
-from .models import Game, GeneralUser
+from .models import Game, GeneralUser, PlayersGames
 from hashlib import md5
 import json, datetime, uuid
 
 SECRET = "-mri43GwM1XA8otOwbyFxY9dVHgA"
 PAYMENT_SERVICE_URL = "https://tilkkutakki.cs.aalto.fi/payments/pay"
 WEBSITE_ADDRESS = "http://127.0.0.1:8000"
+
+ongoing_payments = {}
 
 @require_http_methods(["GET", "POST"])
 #@login_required(login_url='/accounts/login/') # TODO to uncomment when user will be created
@@ -95,7 +97,6 @@ def add_game(request):
             if new_game == None:
                 addingFailed = True
         except Exception as e:
-            print(e)
             addingFailed = True
 
         return HttpResponse(json.dumps({"success": not addingFailed}))
@@ -119,7 +120,35 @@ def show_game(request, game_id, game_name):
             "game_name": game_name,
             "price": price,
             "is_player": current_user.is_player(),
+            "player_has_this_game": False
         }
+
+        try:
+            pid = request.GET.get("pid")
+            ref = request.GET.get("ref")
+            result = request.GET.get("result")
+            checksum = request.GET.get("checksum")
+
+            checksumstr = f"pid={pid:s}&ref={ref:s}&result={result:s}&token={SECRET:s}"
+            if checksum != md5(checksumstr.encode('utf-8')).hexdigest():
+                return HttpResponseRedirect(WEBSITE_ADDRESS + f"/payment_error?pid={pid:s}")
+
+            if not ongoing_payments[pid]:
+                return HttpResponseRedirect(WEBSITE_ADDRESS + f"/payment_error?pid={pid:s}")
+
+            # Player has just bought this game - mark it
+            PlayersGames.objects.create(gameId=Game.objects.get(pk=game_id), playerId=current_user, score=0.0, gameState="")
+        except Exception as e:
+            pass
+
+        # Check if player own this game
+        try:
+            game = PlayersGames.objects.get(gameId=Game.objects.get(pk=game_id), playerId=current_user)
+            ctx["player_has_this_game"] = True
+            ctx["score"] = game.score
+            ctx["game_state"] = game.gameState
+        except Exception as e:
+            pass
 
         return render(request, 'show_game.html', context=ctx)
     elif request.method == 'POST':
@@ -155,6 +184,7 @@ def show_game(request, game_id, game_name):
                 "checksum": checksum
             })
             
+            ongoing_payments[payment_id] = True
             return HttpResponseRedirect(PAYMENT_SERVICE_URL + "?" + query)
         except:
             return HttpResponse(json.dumps({"success": False, "msg": "Cannot send request to the payment service"}))
@@ -165,6 +195,7 @@ def show_payment_error(request):
     ctx = {
         "current_username": request.user.username
     }
+    del ongoing_payments[ request.GET.get("pid") ]
     return render(request, 'payment_error.html', context=ctx)
 
 @require_http_methods(["GET"])
@@ -173,4 +204,5 @@ def show_payment_cancel(request):
     ctx = {
         "current_username": request.user.username
     }
+    del ongoing_payments[ request.GET.get("pid") ]
     return render(request, 'payment_cancel.html', context=ctx)

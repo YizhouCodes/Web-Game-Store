@@ -3,8 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
 class GeneralUser(AbstractUser):
-    # Username: get_username()
-    # Email: get_email_field_name()
 
     # DO NOT CHANGE the order
     PLAYER = 1
@@ -38,7 +36,7 @@ class Game(models.Model):
     category = models.CharField(max_length=32)
     price = models.FloatField()
     minimumAge = models.IntegerField()
-    #purchases = models.IntegerField(default=0) TODO add this columns later
+    #purchases = models.IntegerField(default=0) TODO add this columns later for statistics
     #moneyEarned = models.FloatField(default=0.0)
 
 class Review(models.Model):
