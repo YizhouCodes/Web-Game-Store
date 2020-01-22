@@ -4,8 +4,15 @@ from django.views.decorators.http import require_GET, require_POST, require_http
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from .models import Game
-import json, datetime
+from urllib.parse import urlencode
+import json.scanner
+from .models import Game, GeneralUser
+from hashlib import md5
+import json, datetime, uuid
+
+SECRET = "-mri43GwM1XA8otOwbyFxY9dVHgA"
+PAYMENT_SERVICE_URL = "https://tilkkutakki.cs.aalto.fi/payments/pay"
+WEBSITE_ADDRESS = "http://127.0.0.1:8000"
 
 @require_http_methods(["GET", "POST"])
 #@login_required(login_url='/accounts/login/') # TODO to uncomment when user will be created
@@ -92,3 +99,78 @@ def add_game(request):
             addingFailed = True
 
         return HttpResponse(json.dumps({"success": not addingFailed}))
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/accounts/login/')
+def show_game(request, game_id, game_name):
+    current_user = request.user
+    if request.method == 'GET':
+
+        price = 0.0
+
+        try:
+            price = Game.objects.get(pk=game_id).price
+        except:
+            #return render(request, 'no_such_game.html', context=ctx) TODO
+            return HttpResponse("No such game")
+
+        ctx = {
+            "game_id": game_id,
+            "game_name": game_name,
+            "price": price,
+            "is_player": current_user.is_player(),
+        }
+
+        return render(request, 'show_game.html', context=ctx)
+    elif request.method == 'POST':
+        amount = 0.0
+        try:
+            amount = float(request.POST.get('price'))
+        except:
+            return HttpResponse(json.dumps({"success": False, "msg": "No price parameter"}))
+
+        payment_id = str(uuid.uuid4())
+
+        seller_id = "YXOizFdTRC1Qcm9qZWN0" # Test seller ID
+        try:
+            seller_id = GeneralUser.objects.get( id = Game.objects.get(pk=game_id).developer.id ).payment_info
+        except:
+            return HttpResponse(json.dumps({"success": False, "msg": "No such game"}))
+
+        error_url = WEBSITE_ADDRESS + "/payment_error"
+        success_url = WEBSITE_ADDRESS + f"/game/{game_id}/{game_name}"
+        cancel_url = WEBSITE_ADDRESS + "/payment_cancelled"
+
+        checksumstr = f"pid={payment_id:s}&sid={seller_id:s}&amount={amount:.2f}&token={SECRET:s}"
+        checksum = md5(checksumstr.encode('utf-8')).hexdigest()
+
+        try:
+            query = urlencode({
+                "pid": payment_id,
+                "sid": seller_id,
+                "amount": amount,
+                "success_url": success_url,
+                "cancel_url": cancel_url,
+                "error_url": error_url,
+                "checksum": checksum
+            })
+            
+            return HttpResponseRedirect(PAYMENT_SERVICE_URL + "?" + query)
+        except:
+            return HttpResponse(json.dumps({"success": False, "msg": "Cannot send request to the payment service"}))
+
+@require_http_methods(["GET"])
+@login_required(login_url='/accounts/login/')
+def show_payment_error(request):
+    ctx = {
+        "current_username": request.user.username
+    }
+    return render(request, 'payment_error.html', context=ctx)
+
+@require_http_methods(["GET"])
+@login_required(login_url='/accounts/login/')
+def show_payment_cancel(request):
+    ctx = {
+        "current_username": request.user.username
+    }
+    return render(request, 'payment_cancel.html', context=ctx)
