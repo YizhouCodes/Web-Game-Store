@@ -147,6 +147,8 @@ EMAIL_HOST_PASSWORD="12345678"
 # CRISPY TEMPLATE
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+LOGIN_REDIRECT_URL = '/'
+
 
 # Just pass if code isn't running in heroku
 try:

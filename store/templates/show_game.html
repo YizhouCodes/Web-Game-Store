@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add a game{% endblock %}
+
+{% block header %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container" id="mainContainer">
+
+    {% if is_player and not player_has_this_game %}
+    <form class="form-horizontal" id="buyForm" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="price" value="{{ price }}">
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" id="buyButton" data-arg1="{{ price }}">Buy {{ game_title }} for {{ price }}</button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+
+    {% if is_player and player_has_this_game %}
+    <form class="form-horizontal" id="playForm" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" id="playButton" data-arg1="{{ price }}">Play {{ game_title }}</button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+
+    <!-- TODO -->
+
+</div>
+
+{% endblock %}

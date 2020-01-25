@@ -13,8 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.contrib.auth import views
+from django.urls import path, include
+from store.views import edit_profile, index, page_logout, add_game, show_game, show_payment_error, show_payment_cancel
 from django.contrib import admin
-from django.urls import path
 from store import views
 
 
@@ -25,5 +27,15 @@ urlpatterns = [
     path('accounts/password_recovery/', views.password_reset),
     path('accounts/password_recovery//done/', views.password_reset_done),
     path('reset/<uidb64>/<token>/', views.password_reset_confirm),
-    path('reset/done/', views.password_reset_done)
+    path('reset/done/', views.password_reset_done),
+    path('', index, name="home"),
+    path('accounts/edit_profile/', edit_profile),
+    path('accounts/logout/', page_logout, name="logout"),
+    path('accounts/login/', views.LoginView.as_view(), name="login"),
+    path('games/add/', add_game),
+
+    path('game/<int:game_id>/<str:game_name>', show_game),
+    path('payment_error', show_payment_error),
+    path('payment_cancelled', show_payment_cancel),
+
 ]
