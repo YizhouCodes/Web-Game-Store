@@ -99,8 +99,53 @@ def activate(request, uidb64, token):
 ######################################### RESET PASSWORD  ##########################################
 ####################################################################################################
 
-def password_reset(request):
-    return HttpResponse('password reset')
+def password_recovery(request):
+        if request.method == 'GET':
+                return render(request, 'password_recovery.html')
+
+        if request.method == 'POST':
+            email = request.POST.get('email')
+            try:
+                user = GeneralUser.objects.get(email=email)
+                print(user.username)
+                print(email)
+            except :
+                return HttpResponse(json.dumps({"success": False}))
+
+            current_site = get_current_site(request)
+            message = render_to_string('passwrod_recovery_mail.html', {
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.id)),
+                'token':account_activation_token.make_token(user),
+            })
+
+            wrappedMail = EmailMessage ("Reset Password" , message , to = [email])
+            wrappedMail.send()
+
+            try:
+                return HttpResponse(json.dumps({"success": True}))
+            except:
+                return HttpResponse(json.dumps({"success": False}))
+
+####################################################################################################
+######################################### set Password  ############################################
+####################################################################################################
+
+def reset(request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = GeneralUser.objects.get(id=uid)
+
+        except(TypeError, ValueError, OverflowError, GeneralUser.DoesNotExist):
+            user = None
+
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+
+            return render(request, 'activate_account_result.html', {"success": True})
+        else:
+            return render(request, 'activate_account_result.html', {"success": False})
 
 
 ####################################################################################################
@@ -199,7 +244,7 @@ def add_game(request):
 ######################################### DELETE GAME  #############################################
 ####################################################################################################
 
-@require_http_methods(["DELETE")
+@require_http_methods(["DELETE"])
 @login_required(login_url='/accounts/login/')
 def delete_game(request, game_id, game_name):
 

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.contrib.auth import views
 from django.urls import path, include
 from store.views import edit_profile, index, page_logout, add_game, show_game,show_payment_error, show_payment_cancel
-from store.views import register, activate
+from store.views import register, activate, password_recovery, reset
 
 
 
@@ -26,9 +26,8 @@ urlpatterns = [
     path('accounts/signup/', register, name='register'),
     path('accounts/activate/<uidb64>/<token>/', activate, name='activate'),
     #path('accounts/signup_developer/',views.register_developer),
-    #path('accounts/password_recovery/', views.password_reset),
-#    path('accounts/password_recovery/done/', views.password_reset_done),
-    #path('reset/<uidb64>/<token>/', views.password_reset_confirm),
+    path('accounts/password_recovery/', password_recovery),
+    path('accounts/reset/<uidb64>/<token>/', reset, name='reset'),
     #path('reset/done/', views.password_reset_done),
     path('', index, name="home"),
     path('accounts/edit_profile/', edit_profile),
