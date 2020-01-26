@@ -150,6 +150,7 @@ def page_logout(request):
         logout(request)
         return redirect('home')
 
+
 @require_http_methods(["GET", "POST"])
 @login_required(login_url='/accounts/login/')
 def add_game(request):
@@ -193,10 +194,49 @@ def add_game(request):
 
         return HttpResponse(json.dumps({"success": not addingFailed}))
 
+
+####################################################################################################
+######################################### DELETE GAME  #############################################
+####################################################################################################
+
+@require_http_methods(["DELETE")
+@login_required(login_url='/accounts/login/')
+def delete_game(request, game_id, game_name):
+
+    game = Game.objects.get(pk = game_id)
+    game.delete()
+    return HttpResponse('deleted')
+
+####################################################################################################
+#########################################  MANGE GAME  #############################################
+####################################################################################################
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='/accounts/login/')
+def manage_game(request, game_id, game_name):
+
+    game = Game.objects.get(id = game_id)
+    game.title = request.POST.get('gameTitle')
+    game.desc = request.POST.get('gameDescription')
+    game.screenshots = request.POST.get('screenshot')
+    game.category = request.POST.get('gameCategory')
+    game.minAge = request.POST.get('minAge')
+    game.price = request.POST.get('price')
+    game.gameUrl = request.POST.get('gameUrl')
+
+    game.save()
+
+####################################################################################################
+#########################################   SHOW GAME  #############################################
+####################################################################################################
+
+
 @require_http_methods(["GET", "POST"])
 @login_required(login_url='/accounts/login/')
 def show_game(request, game_id, game_name):
     current_user = request.user
+
     if request.method == 'GET':
 
         price = 0.0
