@@ -143,9 +143,9 @@ def reset(request, uidb64, token):
             user.is_active = True
             user.save()
 
-            return render(request, 'activate_account_result.html', {"success": True})
+            return render(request, 'password_change.html', {"success": True})
         else:
-            return render(request, 'activate_account_result.html', {"success": False})
+            return render(request, 'password_change.html', {"success": False})
 
 
 ####################################################################################################
