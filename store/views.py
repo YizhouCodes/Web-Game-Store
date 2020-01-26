@@ -9,21 +9,14 @@ import json.scanner
 from .models import Game, GeneralUser, PlayersGames
 from hashlib import md5
 import json, datetime, uuid
-
-
-def register_player(request):
-    if request.method == 'POST'
-        playerForm = PlayerRegisterForm (request.POST)
-        if playerForm.is_valid():
-            playerForm.save()
-
-            username = playerForm.cleaned_data.get('username')
-            email = playerForm.cleaned_data.get('email')
-
-
-
-def register_developer(request):
-    return HttpResponse('Hello, World! Developer')
+from .forms import signUpFormPlayer, signUpFormDeveloper
+from django.contrib.sites.shortcuts import get_current_site
+from .tokens import account_activation_token
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 
 SECRET = "-mri43GwM1XA8otOwbyFxY9dVHgA"
@@ -31,6 +24,89 @@ PAYMENT_SERVICE_URL = "https://tilkkutakki.cs.aalto.fi/payments/pay"
 WEBSITE_ADDRESS = "http://127.0.0.1:8000"
 
 ongoing_payments = {}
+
+####################################################################################################
+################################## REGISTER PLAYER AND DEVELOPER ###################################
+####################################################################################################
+
+def register(request):
+
+    if request.method == 'GET':
+        print(request)
+        if(request.GET.get('developer')):
+            return render(request, 'register.html', {'form': signUpFormDeveloper()})
+        else:
+            return render(request, 'register.html', {'form': signUpFormPlayer()})
+
+    if request.method == 'POST':
+
+        form = signUpFormPlayer (request.POST)
+        if form.is_valid():
+            return sendMail(request,form,1)
+    else:
+        form = signUpFormPlayer()
+
+####################################################################################################
+####################################### SEND MAIL TO USER ##########################################
+####################################################################################################
+def sendMail(request,form , type):
+
+    user = form.save (commit = False)
+    user.is_active = False
+    user.user_type = type
+    user.save()
+
+    current_site = get_current_site(request)
+    username = form.cleaned_data.get('username')
+
+    email = form.cleaned_data.get('email')
+    message = render_to_string('activate_mail.html', {
+        'username': username,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.id)),
+        'token':account_activation_token.make_token(user),
+    })
+
+    wrappedMail = EmailMessage ("Activate your Account" , message , to = [email])
+    wrappedMail.send()
+
+    try:
+        return HttpResponse(json.dumps({"success": True}))
+    except:
+        return HttpResponse(json.dumps({"success": False}))
+
+####################################################################################################
+####################################### ACTIVATE ACCOUNT  ##########################################
+####################################################################################################
+
+def activate(request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = GeneralUser.objects.get(id=uid)
+
+        except(TypeError, ValueError, OverflowError, GeneralUser.DoesNotExist):
+            user = None
+
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+
+            return render(request, 'activate_account_result.html', {"success": True})
+        else:
+            return render(request, 'activate_account_result.html', {"success": False})
+
+####################################################################################################
+######################################### RESET PASSWORD  ##########################################
+####################################################################################################
+
+def password_reset(request):
+    return HttpResponse('password reset')
+
+
+####################################################################################################
+######################################### EDIT PROFILE  ############################################
+####################################################################################################
+
 
 @require_http_methods(["GET", "POST"])
 #@login_required(login_url='/accounts/login/') # TODO to uncomment when user will be created

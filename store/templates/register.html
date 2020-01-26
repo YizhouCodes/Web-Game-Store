@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block header %}
+{{ block.super }}
+
+<style>body {font-family:"Open Sans", sans-serif;}</style>
+<script type="text/javascript" src="{% static 'scripts/activate_account.js' %}"></script>
+
+<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
+
+  <!-- Fengyuan Chen's Datepicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+  <script>
+      $(function () {
+        $(".datepicker").datepicker();
+      });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-success d-none text-center" role="alert" id="alertSuccess">
+   Please confirm your email address to complete the registration!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="container d-flex justify-content-center mt-1 mb-4"  id="mainContainer">
+    <div class="col-md-5 " id = "registerFormContainer">
+
+      <form class="border mt-5 text-center p-3" id="registerForm" method="post">
+
+  		  <p class="h4 mb-4 text-center">Sign up</p>
+
+        <div class="nav-tabs-responsive mb-3">
+            <div class="card">
+              <ul class="nav nav-tabs">
+               <li class="nav-item">
+                 <a href="" class="nav-link active" data-toggle="tab">
+                    <i class="fa fa-gamepad"></i>  Player
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link" data-toggle="tab" name ="developer">
+                 <i class="fa fa-code"></i> Developer
+                </a>
+             </li>
+
+           </ul>
+         </div>
+        </div>
+        <div class="text-left ">
+      	{% csrf_token %}
+  			{% for field in form %}
+  		    <p>
+  	        	{{ field }}
+  		        <!-- {% if field.help_text %}
+  		          <small style="color: grey">{{ field.help_text }}</small>
+  		        {% endif %} -->
+  		        {% for error in field.errors %}
+  		          <p style="color: red">{{ error }}</p>
+  		        {% endfor %}
+  		    {% endfor %}
+        </div>
+
+  		    <!-- Sign up button -->
+  		    <button class="btn btn-primary my-4 btn-block" type="submit" id="registerBtn">Sign up</button>
+
+  		    <!-- 3rd party register -->
+          <p>or sign up with:</p>
+
+             <a type="button" class="text-primary  mx-2">
+                 <i class="fa fa-facebook "></i>
+             </a>
+             <a type="button" class="text-primary  mx-2">
+                 <i class="fa fa-google"></i>
+             </a>
+             <a type="button" class="text-primary mx-2">
+                 <i class="fa fa-openid"></i>
+             </a>
+             <a type="button" class="text-primary mx-2">
+                <i class="fa fa-github"></i>
+            </a>
+
+  		    <hr>
+
+  		    <!-- Terms of service -->
+  		    <p>By clicking
+  		        <em>Sign up</em> you agree to our
+  		        <a href="" target="_blank">terms of service</a>
+  		    </p>
+  		</form>
+
+    </div>
+  </div>
+  {% endblock %}
