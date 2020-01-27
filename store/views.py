@@ -17,13 +17,14 @@ WEBSITE_ADDRESS = "http://127.0.0.1:8000"
 ongoing_payments = {}
 
 @require_http_methods(["GET", "POST"])
-#@login_required(login_url='/accounts/login/') # TODO to uncomment when user will be created
+@login_required(login_url='/accounts/login/')
 def edit_profile(request):
     if request.method == 'GET':
-        ctx = { # TODO get logged user: current_user = request.user
-            "current_username": "current-username-here",
+        current_user = request.user
+        ctx = {
+            "current_username": current_user.username,
             "is_developer": True,
-            "current_payment_info": "vjreinvuierji834=",
+            "current_payment_info": current_user.payment_info,
         }
 
         return render(request, 'edit_profile.html', context=ctx)
@@ -32,17 +33,15 @@ def edit_profile(request):
         if usr_name:
             payment_info = request.POST.get('paymentInfo')
             if payment_info:
-                # TODO Update developer
-                # current_user.username = usr_name
-                # current_user.payment_info = payment_info
-                pass
+                # Update developer
+                current_user.username = usr_name
+                current_user.payment_info = payment_info
             else:
-                # TODO Update player
-                # current_user.username = usr_name
-                pass
-            # TODO Commit update
+                # Update player
+                current_user.username = usr_name
+            # Commit update
             try:
-                #current_user.save()
+                current_user.save()
                 return HttpResponse(json.dumps({"success": True}))
             except:
                 return HttpResponse(json.dumps({"success": False}))
