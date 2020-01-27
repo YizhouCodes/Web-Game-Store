@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit profile{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'scripts/edit_profile.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container" id="mainContainer">
+    
+    <div class="alert alert-danger" role="alert" id="alertFailure">
+        No such game found!
+    </div>
+
+</div>
+
+{% endblock %}
