@@ -108,19 +108,42 @@ def show_game(request, game_id, game_name):
     if request.method == 'GET':
 
         price = 0.0
-
+        screenshot_url = ""
+        game_desc = ""
+        upload_data = ""
+        category = ""
+        avg_rating = ""
+        developer = ""
         try:
-            price = Game.objects.get(pk=game_id).price
-        except:
-            #return render(request, 'no_such_game.html', context=ctx) TODO
-            return HttpResponse("No such game")
+            g = Game.objects.get(pk=game_id)
+            price = g.price
+            screenshot_url = g.screenshots
+            game_desc = g.description
+            upload_data = g.dateOfUpload
+            category = g.category
+            avg_rating = g.averageRating
+            developer = g.developer.username
+
+            # User is too young to play this game
+            if datetime.timedelta(days=g.minimumAge*365) > (datetime.date.today() - current_user.date_of_birth):
+                raise Exception()
+
+        except Exception as e:
+            print(e)
+            return render(request, 'no_such_game.html')
 
         ctx = {
             "game_id": game_id,
             "game_name": game_name,
             "price": price,
             "is_player": current_user.is_player(),
-            "player_has_this_game": False
+            "player_has_this_game": False,
+            "screenshot_url" : screenshot_url,
+            "game_desc": game_desc,
+            "category": category,
+            "upload_date": upload_data,
+            "avg_rating": avg_rating,
+            "developer": developer
         }
 
         try:
