@@ -19,11 +19,11 @@ ongoing_payments = {}
 @require_http_methods(["GET", "POST"])
 @login_required(login_url='/accounts/login/')
 def edit_profile(request):
+    current_user = request.user
     if request.method == 'GET':
-        current_user = request.user
         ctx = {
             "current_username": current_user.username,
-            "is_developer": True,
+            "is_developer": current_user.is_developer(),
             "current_payment_info": current_user.payment_info,
         }
 
