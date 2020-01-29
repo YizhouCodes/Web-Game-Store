@@ -1,0 +1,32 @@
+#screenshotImgDiv {  
+    display: inline;
+}
+
+#screenshotImg {
+    max-width: 50%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+#descriptionDiv {
+    position: absolute;
+    display: inline;
+    margin-left: 40px;
+    margin-right: 15px;
+}
+
+#dataOfUpload {
+    color: darkgrey;
+    float: right;
+}
+
+#avgRating {
+    color: darkgrey;
+    float: left;
+}
+
+#buyForm,#playForm {
+    position: absolute;
+    top: 90px;
+    right: 25%;
+}
