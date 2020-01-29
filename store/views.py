@@ -11,6 +11,9 @@ from hashlib import md5
 import json, datetime, uuid
 
 SECRET = "-mri43GwM1XA8otOwbyFxY9dVHgA"
+
+# Other testing pair: seller id PcwrDFRlc3RTZWxsZXI=, secret ajkv4gfixxyaW5EjgTtDgRxj9eoA
+
 PAYMENT_SERVICE_URL = "https://tilkkutakki.cs.aalto.fi/payments/pay"
 WEBSITE_ADDRESS = "http://127.0.0.1:8000"
 
@@ -91,6 +94,7 @@ def add_game(request):
                 averageRating = 0.0,
                 category = category,
                 price = price,
+                url = gameUrl,
                 minimumAge = minAge)
 
             if new_game == None:
@@ -113,6 +117,7 @@ def show_game(request, game_id, game_name):
         category = ""
         avg_rating = ""
         developer = ""
+        purchases = 0
         try:
             g = Game.objects.get(pk=game_id)
             price = g.price
@@ -122,6 +127,7 @@ def show_game(request, game_id, game_name):
             category = g.category
             avg_rating = g.averageRating
             developer = g.developer.username
+            purchases = g.purchases
 
             # User is too young to play this game
             if datetime.timedelta(days=g.minimumAge*365) > (datetime.date.today() - current_user.date_of_birth):
@@ -142,7 +148,8 @@ def show_game(request, game_id, game_name):
             "category": category,
             "upload_date": upload_data,
             "avg_rating": avg_rating,
-            "developer": developer
+            "developer": developer,
+            "purchases": purchases
         }
 
         try:
@@ -159,7 +166,11 @@ def show_game(request, game_id, game_name):
                 return HttpResponseRedirect(WEBSITE_ADDRESS + f"/payment_error?pid={pid:s}")
 
             # Player has just bought this game - mark it
-            PlayersGames.objects.create(gameId=Game.objects.get(pk=game_id), playerId=current_user, score=0.0, gameState="")
+            boughtGame = Game.objects.get(pk=game_id)
+            boughtGame.purchases += 1
+            boughtGame.moneyEarned += boughtGame.price
+            boughtGame.save()
+            PlayersGames.objects.create(gameId=boughtGame, playerId=current_user, score=0.0, gameState="")
         except Exception as e:
             pass
 
@@ -192,14 +203,15 @@ def show_game(request, game_id, game_name):
         success_url = WEBSITE_ADDRESS + f"/game/{game_id}/{game_name}"
         cancel_url = WEBSITE_ADDRESS + "/payment_cancelled"
 
-        checksumstr = f"pid={payment_id:s}&sid={seller_id:s}&amount={amount:.2f}&token={SECRET:s}"
+        amount_str = f"{amount:.2f}"
+        checksumstr = f"pid={payment_id:s}&sid={seller_id:s}&amount={amount_str:s}&token={SECRET:s}"
         checksum = md5(checksumstr.encode('utf-8')).hexdigest()
 
         try:
             query = urlencode({
                 "pid": payment_id,
                 "sid": seller_id,
-                "amount": amount,
+                "amount": amount_str,
                 "success_url": success_url,
                 "cancel_url": cancel_url,
                 "error_url": error_url,
@@ -228,3 +240,23 @@ def show_payment_cancel(request):
     }
     del ongoing_payments[ request.GET.get("pid") ]
     return render(request, 'payment_cancel.html', context=ctx)
+
+@require_http_methods(["GET"])
+@login_required(login_url='/accounts/login/')
+def play_game(request, game_id, game_name):
+    current_user = request.user
+    try:
+        g = Game.objects.get(pk=game_id)
+
+        # User is too young to play this game
+        if datetime.timedelta(days=g.minimumAge*365) > (datetime.date.today() - current_user.date_of_birth):
+            raise Exception()
+
+        ctx = {
+            "game_url": g.url,
+            "game_title": g.title
+        }
+        return render(request, 'play_game.html', context=ctx)
+    except Exception as e:
+        return render(request, 'no_such_game.html')
+

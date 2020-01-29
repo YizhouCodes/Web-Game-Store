@@ -36,8 +36,9 @@ class Game(models.Model):
     category = models.CharField(max_length=32)
     price = models.FloatField()
     minimumAge = models.IntegerField()
-    #purchases = models.IntegerField(default=0) TODO add this columns later for statistics
-    #moneyEarned = models.FloatField(default=0.0)
+    url = models.URLField()
+    purchases = models.IntegerField(default=0)
+    moneyEarned = models.FloatField(default=0.0)
 
 class Review(models.Model):
     gameId = models.ForeignKey('Game', on_delete=models.CASCADE)

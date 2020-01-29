@@ -32,16 +32,22 @@
 
     <div id="descriptionDiv">
         <p id="description">
-            {{ game_desc }} Game from examples nfiednjifniefnijefnirgfnijnij Game from examples nfiednjifniefnijefnirgfnijnij Game from examples nfiednjifniefnijefnirgfnijnij Game from examples nfiednjifniefnijefnirgfnijnij Game from examples nfiednjifniefnijefnirgfnijnij
+            {{ game_desc }}
         </p>
 
-        <p id="avgRating">
-            {{ avg_rating }} / 5
-        </p>
+        <div id="metadataDiv">
+            <p id="avgRating">
+                {{ avg_rating }} / 5
+            </p>
 
-        <p id="dataOfUpload">
-            Uploaded {{ upload_date }}
-        </p>
+            <p id="bought">
+                Bought {{ purchases }} times
+            </p>
+
+            <p id="dataOfUpload">
+                Uploaded {{ upload_date }}
+            </p>
+        </div>
 
     </div>
 
@@ -51,14 +57,14 @@
         <input type="hidden" name="price" value="{{ price }}">
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary" id="buyButton" data-arg1="{{ price }}">Buy {{ game_title }} for {{ price }}</button>
+                <button type="submit" class="btn btn-primary" id="buyButton" data-arg1="{{ price }}">Buy for {{ price }}</button>
             </div>
         </div>
     </form>
     {% endif %}
 
     {% if is_player and player_has_this_game %}
-    <form class="form-horizontal" id="playForm" method="POST">
+    <form class="form-horizontal" id="playForm" method="GET" action="/game/{{ game_id }}/{{ game_name }}/play">
         {% csrf_token %}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
