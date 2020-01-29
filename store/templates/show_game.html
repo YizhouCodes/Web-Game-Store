@@ -5,6 +5,7 @@
 
 {% block header %}
 {{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/show_game.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -31,16 +32,17 @@
 
     <div id="descriptionDiv">
         <p id="description">
-            {{ game_desc }}
-        </p>
-
-        <p id="dataOfUpload">
-            {{ upload_date }}
+            {{ game_desc }} Game from examples nfiednjifniefnijefnirgfnijnij Game from examples nfiednjifniefnijefnirgfnijnij Game from examples nfiednjifniefnijefnirgfnijnij Game from examples nfiednjifniefnijefnirgfnijnij Game from examples nfiednjifniefnijefnirgfnijnij
         </p>
 
         <p id="avgRating">
             {{ avg_rating }} / 5
         </p>
+
+        <p id="dataOfUpload">
+            Uploaded {{ upload_date }}
+        </p>
+
     </div>
 
     {% if is_player and not player_has_this_game %}
@@ -60,7 +62,7 @@
         {% csrf_token %}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary" id="playButton" data-arg1="{{ price }}">Play {{ game_title }}</button>
+                <button type="submit" class="btn btn-primary btn-lg" id="playButton" data-arg1="{{ price }}">Play {{ game_title }}</button>
             </div>
         </div>
     </form>
