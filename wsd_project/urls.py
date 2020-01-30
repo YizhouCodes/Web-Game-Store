@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib.auth import views
 from django.contrib import admin
 from django.urls import path, include
-from store.views import edit_profile, index, page_logout, add_game, show_game, show_payment_error, show_payment_cancel, play_game
+from store.views import *
+from store.game_developer_info import *
 
 urlpatterns = [
     path('admin/', admin.site.urls), # TODO remove later
@@ -32,5 +33,10 @@ urlpatterns = [
     path('payment_cancelled', show_payment_cancel),
 
     path('game/<int:game_id>/<str:game_name>/play', play_game),
+
+    path('game/<int:game_id>/<str:game_name>/play/post_score', post_score),
+    path('game/<int:game_id>/<str:game_name>/play/save_state', save_state),
+    path('game/<int:game_id>/<str:game_name>/play/get_state', get_state),
+    path('game/<int:game_id>/<str:game_name>/play/post_settings', post_settings),
 ]
 
