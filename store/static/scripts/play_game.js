@@ -115,5 +115,11 @@ function receiveMessage(event) {
                 postErrorMessage("Cannot save settings: " + data["info"]);
             }
         });
+
+        try {
+            $("#game").attr("style", "width: " + data.options.width + "px;height: " + data.options.height + "px")
+        } catch (error) {
+            ; // Just skip this, options don't have width and/or hight fields
+        }
     }
 }
