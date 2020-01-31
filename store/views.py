@@ -51,7 +51,9 @@ def edit_profile(request):
             return HttpResponse(json.dumps({"success": False}))
 
 def index(request):
-    return render(request, 'index.html', {})
+    games = Game.objects.all()
+    context = {'games': games}
+    return render(request, 'index.html', context)
 
 def page_logout(request):
     if request.method == "POST":
