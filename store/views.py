@@ -52,7 +52,11 @@ def edit_profile(request):
 
 def index(request):
     games = Game.objects.all()
-    context = {'games': games}
+    categoryList = []
+    for game in games:
+        if game.category not in categoryList:
+            categoryList.append(game.category)
+    context = {'games': games, 'categories': categoryList}
     return render(request, 'index.html', context)
 
 def page_logout(request):
