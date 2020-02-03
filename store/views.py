@@ -53,12 +53,23 @@ def edit_profile(request):
             return HttpResponse(json.dumps({"success": False}))
 
 def index(request):
-    return render(request, 'index.html', {})
+    games = Game.objects.all()
+    categoryList = []
+    for game in games:
+        if game.category not in categoryList:
+            categoryList.append(game.category)
+    context = {'games': games, 'categories': categoryList}
+    return render(request, 'index.html', context)
 
 def page_logout(request):
     if request.method == "POST":
         logout(request)
         return redirect('home')
+
+def my_games(request):
+    userGames = PlayersGames.objects.all().filter(playerId = request.user)
+    context = {'games': userGames}
+    return render(request, 'my_games.html', context)
 
 @require_http_methods(["GET", "POST"])
 @login_required(login_url='/accounts/login/')

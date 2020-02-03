@@ -26,6 +26,7 @@ urlpatterns = [
     path('accounts/edit_profile/', edit_profile),
     path('accounts/logout/', page_logout, name="logout"),
     path('accounts/login/', views.LoginView.as_view(), name="login"),
+    path('accounts/my_games', my_games),
     path('games/add/', add_game),
 
     path('game/<int:game_id>/<str:game_name>', show_game),
