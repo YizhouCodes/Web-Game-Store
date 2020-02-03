@@ -51,9 +51,17 @@ def edit_profile(request):
             return HttpResponse(json.dumps({"success": False}))
 
 def index(request):
-    games = Game.objects.all()
+    allGames = Game.objects.all()
+    if "c" in request.GET:
+        filterCategory = request.GET["c"]
+        games = Game.objects.all().filter(category = filterCategory)
+    elif "n" in request.GET:
+        searchName = request.GET["n"]
+        games = Game.objects.all().filter(title__startswith = searchName)
+    else:
+        games = Game.objects.all()
     categoryList = []
-    for game in games:
+    for game in allGames:
         if game.category not in categoryList:
             categoryList.append(game.category)
     context = {'games': games, 'categories': categoryList}
