@@ -17,9 +17,13 @@
       <div class="col-lg-3">
 
         <h1 class="my-4">Shop Name</h1>
+        <form action=""> 
+          <label for="search">Search:</label>
+          <input type="search" id="search" name="n">
+        </form>
         <div class="list-group">
           {% for category in categories %}
-          <a href="#" class="list-group-item">{{ category }}</a>
+          <a href=/?c={{ category }} class="list-group-item">{{ category }}</a>
           {% endfor %}
         </div>
 
