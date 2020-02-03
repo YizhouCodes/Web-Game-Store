@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Games{% endblock %}
+
+{% block header %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container" id="mainContainer">
+	<ul>
+		{% for game in games %}
+		<li>
+			<p><a href=/game/{{ game.id }}/{{ game.title }}>{{ game.title }}</a></p>
+			<button>Play</button>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+
+{% endblock %}

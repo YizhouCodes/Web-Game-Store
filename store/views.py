@@ -64,6 +64,11 @@ def page_logout(request):
         logout(request)
         return redirect('home')
 
+def my_games(request):
+    userGames = PlayersGames.objects.all().filter(playerId = request.user)
+    context = {'games': userGames}
+    return render(request, 'my_games.html', context)
+
 @require_http_methods(["GET", "POST"])
 @login_required(login_url='/accounts/login/')
 def add_game(request):
