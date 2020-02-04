@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from store.views import *
 from store.game_developer_info import *
+from store_rest_api_v1 import urls as api_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls), # TODO remove later
@@ -39,5 +40,7 @@ urlpatterns = [
     path('game/<int:game_id>/<str:game_name>/play/save_state', save_state),
     path('game/<int:game_id>/<str:game_name>/play/get_state', get_state),
     path('game/<int:game_id>/<str:game_name>/play/post_settings', post_settings),
+
+    path('apiv1/', include(api_urls)),
 ]
 
