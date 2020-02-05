@@ -11,7 +11,6 @@ class GameSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super(serializers.ModelSerializer, self).__init__(*args, **kwargs)
-        print("__init__ called")
         if 'context' in kwargs:
             if 'request' in kwargs['context']:
                 excluding = kwargs['context']['request'].query_params.getlist('excluding', [])

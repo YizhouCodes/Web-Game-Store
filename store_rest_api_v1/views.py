@@ -1,12 +1,14 @@
-from rest_framework import viewsets, filters, generics
+from rest_framework import viewsets, filters, generics, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from store.models import Game, PlayersGames, GeneralUser
 from store_rest_api_v1.serializers import GameSerializer, HighscoreSerializer, GeneralUserSerializer
+from store_rest_api_v1.permissions import IsDeveloper
 
 class UsersView(viewsets.ModelViewSet):
     queryset = GeneralUser.objects.all()
     serialization_class = GeneralUserSerializer
     http_method_names = ['get']
+    permission_classes = [permissions.IsAuthenticated, IsDeveloper]
 
 class GameListView(generics.ListAPIView):
     serializer_class = GameSerializer
@@ -16,6 +18,7 @@ class GameListView(generics.ListAPIView):
     ordering_fields = ['title', 'category', 'averageRating', 'dateOfUpload', 'price', 'minimumAge', 'purchases']
     ordering = ['purchases']
     http_method_names = ['get']
+    permission_classes = [permissions.IsAuthenticated, IsDeveloper]
 
     def get_queryset(self):
         queryset = Game.objects.all()
@@ -69,3 +72,4 @@ class HighscoreListView(generics.ListAPIView):
     ordering_fields = ['score']
     ordering = ['score']
     http_method_names = ['get']
+    permission_classes = [permissions.IsAuthenticated, IsDeveloper]
