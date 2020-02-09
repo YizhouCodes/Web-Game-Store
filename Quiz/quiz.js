@@ -162,6 +162,10 @@ function timer()
 
         $('#iTimeShow').html('Quiz Finished!');
         $('#timer').html("Your result: " + correctAnswers + " out of " + questions.length);
+        $('#iTimeShow').html('Quiz Finished!');
+        $("#nextButton").css("display" , "none");
+        $("#backButton").css("display" , "none");
+        $("#playAgainButton").css('display','inline');
         c = 100;
         finish = true;
 				return false;
