@@ -1,93 +1,95 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %}Home{% endblock %}
-
 {% block header %}
 {{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/carousel.css' %}" />
 {% endblock %}
-
 {% block content %}
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <div class="row">
-
+<!-- Page Content -->
+<div class="container">
+   <div class="row">
       <div class="col-lg-3">
-
-        <h1 class="my-4">Shop Name</h1>
-        <form action=""> 
-          <label for="search">Search:</label>
-          <input type="search" id="search" name="n">
-        </form>
-        <div class="list-group">
-          {% for category in categories %}
-          <a href=/?c={{ category }} class="list-group-item">{{ category }}</a>
-          {% endfor %}
-        </div>
-
+         <h1 class="my-4">Shop Name</h1>
+         <form action=""> 
+            <label for="search">Search:</label>
+            <input type="search" id="search" name="n">
+         </form>
+         <div class="list-group">
+            {% for category in categories %}
+            <a href=/?c={{ category }} class="list-group-item">{{ category }}</a>
+            {% endfor %}
+         </div>
       </div>
       <!-- /.col-lg-3 -->
-
       <div class="col-lg-9">
-
-        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-          <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner" role="listbox">
+         {% if games %}
+         <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+            <ol class="carousel-indicators">
+               {% with games|first as game %}
+               <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+               {% endwith %}
+               {% for game in games|slice:"1:5" %}
+               <li data-target="#carouselExampleIndicators" data-slide-to={{ forloop.counter }} class="inactive"></li>
+               {% endfor %}
+            </ol>
+            <div class="carousel-inner" role="listbox">
+               {% with games|first as game %}
+               <div class="carousel-item active">
+                  <a href=/game/{{ game.id }}/{{ game.title }}><img class="img-fluid" src={{ game.screenshots }}></a>
+                  <div class="carousel-caption">
+                     <h3>{{game.title}}</h3>
+                  </div>
+               </div>
+               {% endwith %}
+               {% for game in games|slice:"1:5" %}
+               <div class="carousel-item">
+                  <a href=/game/{{ game.id }}/{{ game.title }}><img class="img-fluid" src={{ game.screenshots }}></a>
+                  <div class="carousel-caption">
+                     <h3>{{game.title}}</h3>
+                  </div>
+               </div>
+               {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+            <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="false"></span>
+            <span class="sr-only">Next</span>
+            </a>
+         </div>
+         {% else %}
+         <div class="alert alert-danger" role="alert" id="alertError">
+            No results were found.
+         </div>
+         {% endif %}
+         <div class="row">
             {% for game in games %}
-            <div class="carousel-item active">
-              <a href=/game/{{ game.id }}/{{ game.title }}><img class="d-block img-fluid" src={{ game.screenshots }} alt="First slide"></a>
+            <div class="col-lg-4 col-md-6 mb-4">
+               <div class="card h-100">
+                  <a href=/game/{{ game.id }}/{{ game.title }}><img class="card-img-top" src={{ game.screenshots }} alt=""></a>
+                  <div class="card-body">
+                     <h4 class="card-title">
+                        <a href=/game/{{ game.id }}/{{ game.title }}>{{ game.title }}</a>
+                     </h4>
+                     <h5>{{ game.price }} €</h5>
+                     <p class="card-text">{{ game.description }}</p>
+                     <p class="card-text">{{ game.category }}</p>
+                  </div>
+                  <div class="card-footer">
+                     <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                  </div>
+               </div>
             </div>
             {% endfor %}
-          </div>
-          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-
-        <div class="row">
-
-          {% for game in games %}
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href=/game/{{ game.id }}/{{ game.title }}><img class="card-img-top" src={{ game.screenshots }} alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href=/game/{{ game.id }}/{{ game.title }}>{{ game.title }}</a>
-                </h4>
-                <h5>{{ game.price }} €</h5>
-                <p class="card-text">{{ game.description }}</p>
-                <p class="card-text">{{ game.category }}</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          {% endfor %}
-
-        </div>
-        <!-- /.row -->
-
+         </div>
+         <!-- /.row -->
       </div>
       <!-- /.col-lg-9 -->
-
-    </div>
-    <!-- /.row -->
-
-  </div>
-  <!-- /.container -->
-
+   </div>
+   <!-- /.row -->
+</div>
+<!-- /.container -->
 {% endblock %}

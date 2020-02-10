@@ -74,8 +74,12 @@ def page_logout(request):
         logout(request)
         return redirect('home')
 
+@login_required(login_url='/accounts/login/')
 def my_games(request):
-    userGames = PlayersGames.objects.all().filter(playerId = request.user)
+    if request.user.is_developer():
+        userGames = Game.objects.all().filter(developer = request.user.id)
+    else:
+        userGames = PlayersGames.objects.all().filter(playerId = request.user.id)
     context = {'games': userGames}
     return render(request, 'my_games.html', context)
 
