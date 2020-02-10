@@ -79,7 +79,7 @@ def my_games(request):
     if request.user.is_developer():
         userGames = Game.objects.all().filter(developer = request.user.id)
     else:
-        userGames = PlayersGames.objects.all().filter(playerId = request.user.id)
+        userGames = [g.gameId for g in PlayersGames.objects.all().filter(playerId = request.user.id)]
     context = {'games': userGames}
     return render(request, 'my_games.html', context)
 
