@@ -11,7 +11,9 @@
 <div class="container" id="mainContainer">
 	<form class="form-horizontal" method="post" action="{% url 'login' %}">
 		{% if form.errors %}
-		<script>alert("Username or password was wrong!")</script>
+		<div class="alert alert-danger" role="alert" id="alertError">
+            Username or password was wrong!
+         </div>
 		{% endif %}
 		<div class="form-group">
 			{% csrf_token %}

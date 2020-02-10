@@ -23,6 +23,7 @@
       </div>
       <!-- /.col-lg-3 -->
       <div class="col-lg-9">
+         {% if games %}
          <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
             <ol class="carousel-indicators">
                {% with games|first as game %}
@@ -59,6 +60,11 @@
             <span class="sr-only">Next</span>
             </a>
          </div>
+         {% else %}
+         <div class="alert alert-danger" role="alert" id="alertError">
+            No results were found.
+         </div>
+         {% endif %}
          <div class="row">
             {% for game in games %}
             <div class="col-lg-4 col-md-6 mb-4">
