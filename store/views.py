@@ -214,6 +214,15 @@ def show_game(request, game_id, game_name):
         except:
             return HttpResponse(json.dumps({"success": False, "msg": "No price parameter"}))
 
+        if amount == 0:
+            # Player has just bought this game - mark it
+            boughtGame = Game.objects.get(pk=game_id)
+            boughtGame.purchases += 1
+            boughtGame.moneyEarned += boughtGame.price
+            boughtGame.save()
+            PlayersGames.objects.create(gameId=boughtGame, playerId=current_user, score=0.0, gameState="")
+            return HttpResponseRedirect(WEBSITE_ADDRESS + "/accounts/my_games")
+
         payment_id = str(uuid.uuid4())
 
         seller_id = "YXOizFdTRC1Qcm9qZWN0" # Test seller ID

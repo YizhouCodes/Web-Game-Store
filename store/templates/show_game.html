@@ -56,9 +56,15 @@
         {% csrf_token %}
         <input type="hidden" name="price" value="{{ price }}">
         <div class="form-group">
+            {% if price != 0 %}
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary" id="buyButton" data-arg1="{{ price }}">Buy for {{ price }}</button>
             </div>
+            {% else %}
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" id="buyButton" data-arg1=0>Add game for free</button>
+            </div>
+            {% endif %}
         </div>
     </form>
     {% endif %}
