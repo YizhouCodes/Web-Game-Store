@@ -145,6 +145,36 @@ $(document).ready(function ()
     $("#backButton").css("display" , "inline");
     displayCurrentQuestion();
   });
+
+
+//########################################### SAVE BUTTON CLICKED #################################
+
+  	$("#saveButton").on("click", function (){
+      var message =  {
+          messageType: "SAVE",
+          gameState: {
+
+          }
+        };
+      window.parent.postMessage(msg, "*");
+  });
+
+//########################################### LOAD BUTTON CLICKED #################################
+
+    	$("#loadButton").on("click", function (){
+        var msg = {"messageType": "LOAD_REQUEST", };
+        window.parent.postMessage(msg, "*");
+      });
+      window.addEventListener("message", function(evt) {
+    if(evt.data.messageType === "LOAD") {
+      playerItems = evt.data.gameState.playerItems;
+      points = evt.data.gameState.score;
+      $("#score").text(points);
+      updateItems();
+    } else if (evt.data.messageType === "ERROR") {
+      alert(evt.data.info);
+    }
+  });
 });
 //########################################### TIMER FUNCTION #################################
 
@@ -176,8 +206,3 @@ function timer()
 			timer()
 		},1000);
 	}
-
-function resetQuiz()
-{
-
-}

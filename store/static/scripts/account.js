@@ -10,8 +10,8 @@ function afterRegister(registerBtn) {
 }
 
 $().ready( function() {
-    registerBtn = $("#registerBtn");
-    $("#registerForm").submit( function(e) {
+    registerBtn = $(".registerBtn");
+    $(".registerForm").submit( function(e) {
         e.preventDefault();
         registerBtn.removeClass("active");
         afterRegister(registerBtn);

@@ -30,30 +30,37 @@ ongoing_payments = {}
 ####################################################################################################
 
 def register(request):
-
     if request.method == 'GET':
-        print(request)
-        if(request.GET.get('developer')):
-            return render(request, 'register.html', {'form': signUpFormDeveloper()})
-        else:
-            return render(request, 'register.html', {'form': signUpFormPlayer()})
+        print("getttt")
+        return render(request, 'register.html', {'form': [signUpFormPlayer(), signUpFormDeveloper()]})
 
     if request.method == 'POST':
+        if(request.POST.get('date_of_birth')!= None):
+            print("in if")
+            form = signUpFormPlayer (request.POST)
+            if form.is_valid():
+                return sendMail(request,form,1)
 
-        form = signUpFormPlayer (request.POST)
-        if form.is_valid():
-            return sendMail(request,form,1)
-    else:
-        form = signUpFormPlayer()
+        else:
+            print("in else")
+            form = signUpFormDeveloper (request.POST)
+            if form.is_valid():
+                return sendMail(request,form,2)
+            else:
+                msg = 'Errors: %s' % form.errors.as_text()
+                return HttpResponse(msg, status=400)
 
 ####################################################################################################
 ####################################### SEND MAIL TO USER ##########################################
 ####################################################################################################
 def sendMail(request,form , type):
 
+    print(type)
     user = form.save (commit = False)
     user.is_active = False
     user.user_type = type
+    if (type == 2):
+        user.date_of_birth = "1000-10-10"
     user.save()
 
     current_site = get_current_site(request)
@@ -128,7 +135,7 @@ def password_recovery(request):
                 return HttpResponse(json.dumps({"success": False}))
 
 ####################################################################################################
-######################################### set Password  ############################################
+######################################### SET PASSWORD  ############################################
 ####################################################################################################
 
 def reset(request, uidb64, token):
