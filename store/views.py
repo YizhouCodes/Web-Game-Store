@@ -6,7 +6,7 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from urllib.parse import urlencode
 import json.scanner
-from .models import Game, GeneralUser, PlayersGames
+from .models import Game, GeneralUser, PlayersGames, Review
 from hashlib import md5
 import json, datetime, uuid
 
@@ -52,6 +52,7 @@ def edit_profile(request):
             # Not valid request, do nothing
             return HttpResponse(json.dumps({"success": False}))
 
+@require_http_methods(["GET"])
 def index(request):
     allGames = Game.objects.all()
     if "c" in request.GET:
@@ -69,12 +70,14 @@ def index(request):
     context = {'games': games, 'categories': categoryList}
     return render(request, 'index.html', context)
 
+@login_required(login_url='/accounts/login/')
 def page_logout(request):
     if request.method == "POST":
         logout(request)
         return redirect('home')
 
 @login_required(login_url='/accounts/login/')
+@require_http_methods(["GET"])
 def my_games(request):
     if request.user.is_developer():
         userGames = Game.objects.all().filter(developer = request.user.id)
@@ -206,6 +209,8 @@ def show_game(request, game_id, game_name):
         except Exception as e:
             pass
 
+        reviewList = Review.objects.all().filter(gameId = Game.objects.get(pk=game_id))
+        ctx["reviews"] = reviewList
         return render(request, 'show_game.html', context=ctx)
     elif request.method == 'POST':
         amount = 0.0
@@ -254,6 +259,18 @@ def show_game(request, game_id, game_name):
             return HttpResponseRedirect(PAYMENT_SERVICE_URL + "?" + query)
         except:
             return HttpResponse(json.dumps({"success": False, "msg": "Cannot send request to the payment service"}))
+
+@require_http_methods(["POST"])
+@login_required(login_url='/accounts/login/')
+def add_review(request, game_id, game_name):
+    reviewText = request.POST.get("reviewInput")
+    reviewRating = request.POST.get("rating")
+    currentGame = Game.objects.get(pk = game_id)
+    Review.objects.create(gameId = currentGame, playerId = request.user, rating = reviewRating, description = reviewText)
+    numberOfReviews = len(Review.objects.all().filter(gameId = game_id))
+    currentGame.averageRating = (currentGame.averageRating + float(reviewRating)) / numberOfReviews
+    currentGame.save()
+    return redirect("/game/" + str(game_id) + "/" + game_name)
 
 @require_http_methods(["GET"])
 @login_required(login_url='/accounts/login/')

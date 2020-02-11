@@ -49,3 +49,9 @@
     float: left;
     left: 50%;
 }
+
+#reviewsDiv {
+    float: left;
+    display: inline;
+    position: absolute;
+}

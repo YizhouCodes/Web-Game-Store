@@ -51,6 +51,26 @@
 
     </div>
 
+    <div id="reviewsDiv">
+        {% for review in reviews %}
+            <p><b>{{ review.playerId }}</b></p>
+            <p>{{ review.description}}</p>
+            <p>Rating: {{ review.rating }}</p>
+        {% endfor %}
+    </div>
+
+    {% if is_player and player_has_this_game %}
+    <div id="reviewFormDiv">
+        <textarea rows="4" cols="50" name="reviewInput" form="reviewForm" placeholder="Write your review here"></textarea>
+        <form method="POST" action="/game/{{ game_id }}/{{ game_name }}/add_review" id="reviewForm">
+            {% csrf_token %}
+            Rating (1-5): <input type="number" name="rating" min="0" max="5" required>
+            <input type="hidden" value={{ game_id }} name="gameId">
+            <input type="submit" class="btn btn-primary">
+        </form>
+    </div>
+    {% endif %}
+
     {% if is_player and not player_has_this_game %}
     <form class="form-horizontal" id="buyForm" method="POST">
         {% csrf_token %}

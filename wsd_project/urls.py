@@ -31,6 +31,7 @@ urlpatterns = [
     path('games/add/', add_game),
 
     path('game/<int:game_id>/<str:game_name>', show_game),
+    path('game/<int:game_id>/<str:game_name>/add_review', add_review),
     path('payment_error', show_payment_error),
     path('payment_cancelled', show_payment_cancel),
 
