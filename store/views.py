@@ -305,7 +305,7 @@ def edit_game(request, game_id, game_name):
         game_to_edit.description = request.POST.get('gameDescription')
         game_to_edit.screenshots = request.POST.get('screenshot')
         game_to_edit.category = request.POST.get('gameCategory')
-        game_to_edit.minimumAge = int(quest.POST.get('minAge'))
+        game_to_edit.minimumAge = int(request.POST.get('minAge'))
         game_to_edit.price = float(request.POST.get('price'))
         game_to_edit.url = request.POST.get('gameUrl')
 
