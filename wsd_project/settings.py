@@ -42,6 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.openid',
     'store'
 ]
 
@@ -141,7 +148,17 @@ EMAIL_HOST_USER="WSD.playstore3@gmail.com"
 EMAIL_HOST_PASSWORD="WSD@playstore"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-############## END EMAIL BACKEND ##########
+############################################
+############AUTHENTICATION 3rd Party #######
+############################################
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+
 
 # CRISPY TEMPLATE
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
