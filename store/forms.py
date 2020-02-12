@@ -6,7 +6,7 @@ class signUpFormPlayer(UserCreationForm):
 
 	class Meta:
 		model = GeneralUser
-		date_of_birth = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'])
+		date_of_birth = forms.DateTimeField(initial="", input_formats=['%d/%m/%Y %H:%M'])
 
 		widgets = {
             'date_of_birth': forms.DateInput(attrs={"placeholder":"Date of birth", 'class':'datepicker'}),

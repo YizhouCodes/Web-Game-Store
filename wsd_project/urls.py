@@ -28,7 +28,7 @@ urlpatterns = [
     path('accounts/signup/', register, name='register'),
     path('accounts/activate/<uidb64>/<token>/', activate, name='activate'),
     #path('accounts/signup_developer/',views.register_developer),
-    path('accounts/password_recovery/', password_recovery),
+    path('accounts/password_recovery/', password_recovery, name='password_recovery'),
     path('accounts/reset/<uidb64>/<token>/', reset, name='reset'),
     #path('reset/done/', views.password_reset_done),
     path('', index, name="home"),

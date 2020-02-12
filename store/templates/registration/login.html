@@ -30,11 +30,13 @@
           		{{ form.password }}
         	</div>
       	</div>
-
+				<p><a href="{% url 'password_recovery' %}"> Forgot Password?</a> </p>
 		<div class="form-group">
         	<div class="">
           		<input type="submit" value="login" class="btn btn-primary btn-block">
         	</div>
+					<hr>
+					<p><a href="{% url 'register' %}">Not a member? Sign Up Now </a> </p>
       	</div>
 		<p><input type="hidden" name="next" value="{{ next }}"></p>
 	</form>
