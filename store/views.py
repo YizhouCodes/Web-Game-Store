@@ -302,9 +302,9 @@ def play_game(request, game_id, game_name):
             raise Exception()
 
         # Get 4 highest scores of this game
-        highest_scores = PlayersGames.objects.get(gameId=game_id).filter(score__gt=0).order_by("-score")[:4]
-        #highest_scores = [str(s.score) ]
-        no_highest_scores = len(highest_scores) > 0
+        highest_scores = PlayersGames.objects.filter(gameId=game_id).order_by("-score")[:4]
+        highest_scores = [str(s.score) for s in highest_scores]
+        no_highest_scores = len(highest_scores) <= 0
 
         ctx = {
             "game_url": g.url,
@@ -314,5 +314,6 @@ def play_game(request, game_id, game_name):
         }
         return render(request, 'play_game.html', context=ctx)
     except Exception as e:
+        print(e)
         return render(request, 'no_such_game.html')
 

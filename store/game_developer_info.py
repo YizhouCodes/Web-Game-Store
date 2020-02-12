@@ -9,10 +9,13 @@ import json
 def post_score(request, game_id, game_name):
     try:
         pg = PlayersGames.objects.get(gameId=Game.objects.get(pk=game_id), playerId=request.user)
-        pg.score = request.POST.get('score')
-        pg.save()
+        new_score = float(request.POST.get('score'))
+        if pg.score < new_score:
+            pg.score = new_score
+            pg.save()
         return HttpResponse(json.dumps({"status": True}).encode("utf8"))
-    except:
+    except Exception as e:
+        print(e)
         return HttpResponse(json.dumps({"status": False, "info": "Cannot save the score!"}).encode("utf8"))
 
     return HttpResponse(json.dumps({"status": False, "info": "Unknown error"}).encode("utf8"))
