@@ -13,66 +13,66 @@
 <div class="container" id="mainContainer">
 
     <div class="alert alert-danger d-none" role="alert" id="alertFailure">
-        Fail to add the game!
+        Fail to {{ add_or_edit }} the game!
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
-    <h2>Add a game here, {{ current_username }}</h2>
+    <h2>{{ add_or_edit }} a game here, {{ current_username }}</h2>
     <form class="form-horizontal" id="addingForm">{% csrf_token %}
       <div class="form-group">
         <label class="control-label col-sm-2" for="gameTitle">Game title:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="gameTitle" placeholder="Game title goes here" name="gameTitle" maxlength="256" required>
+          <input type="text" value="{{ game.title }}" class="form-control" id="gameTitle" placeholder="Game title goes here" name="gameTitle" maxlength="256" required>
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2" for="gameUrl">Game URL:</label>
         <div class="col-sm-10">
-          <input type="url" class="form-control" id="gameUrl" placeholder="Game URL goes here" name="gameUrl" required>
+          <input type="url" value="{{ game.url }}" class="form-control" id="gameUrl" placeholder="Game URL goes here" name="gameUrl" required>
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2" for="gameDescription">Game description:</label>
         <div class="col-sm-10">
-          <textarea rows="10" cols="55" class="form-control" id="gameDescription" placeholder="Game description goes here" name="gameDescription"></textarea>
+          <textarea rows="10" value="{{ game.description }}" cols="55" class="form-control" id="gameDescription" placeholder="Game description goes here" name="gameDescription"></textarea>
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2" for="gameCategory">Game category:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="gameCategory" placeholder="Game category goes here" name="gameCategory" maxlength="32">
+          <input type="text" value="{{ game.category }}" class="form-control" id="gameCategory" placeholder="Game category goes here" name="gameCategory" maxlength="32">
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2" for="minAge">Minimal age:</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control" id="minAge" name="minAge" min="1" max="18" value="7">
+          <input type="number" value="{{ game.minimumAge }}" class="form-control" id="minAge" name="minAge" min="1" max="18" value="7">
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2" for="price">Price:</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control" id="price" name="price" value="0.00" min="0.00" step="0.01" required>
+          <input type="number" value="{{ game.price }}" class="form-control" id="price" name="price" value="0.00" min="0.00" step="0.01" required>
         </div>
       </div>
 
       <div class="form-group">
         <label class="control-label col-sm-2" for="screenshot">Screenshot URL:</label>
         <div class="col-sm-10">
-          <input type="url" class="form-control" id="screenshot" placeholder="Screenshot URL goes here" name="screenshot">
+          <input type="url" value="{{ game.url }}" class="form-control" id="screenshot" placeholder="Screenshot URL goes here" name="screenshot">
         </div>
       </div>
 
       <div class="form-group">        
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-dark" id="addingGameButton">Add game!</button>
+          <button type="submit" class="btn btn-dark" id="addingGameButton">{{ add_or_edit }} game!</button>
         </div>
       </div>
 </div>

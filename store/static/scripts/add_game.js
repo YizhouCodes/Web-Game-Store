@@ -1,19 +1,38 @@
 function addGame(addingBtn) {
-    
-    $.post("/games/add/", $("#addingForm").serialize(), function(data, status) {
-        data = JSON.parse(data);
+    var isAdding = addingBtn.text().includes("Add");
 
-        if (status === "success" && data.success) {
-            
-            // Redirect to home
-            document.location.href = '/'
-        } else {
-            
-            $("#alertFailure").removeClass("d-none");
-        }
+    if (isAdding) {
+        $.post("/games/add/", $("#addingForm").serialize(), function(data, status) {
+            data = JSON.parse(data);
 
-        addingBtn.addClass("active");
-    });
+            if (status === "success" && data.success) {
+                
+                // Redirect to home
+                document.location.href = '/'
+            } else {
+                
+                $("#alertFailure").removeClass("d-none");
+            }
+
+            addingBtn.addClass("active");
+        });
+    } else {
+        reqUrl = window.location.href.split('?')[0];
+        $.post(reqUrl, $("#addingForm").serialize(), function(data, status) {
+            data = JSON.parse(data);
+
+            if (status === "success" && data.success) {
+                
+                // Redirect to home
+                document.location.href = '/'
+            } else {
+                
+                $("#alertFailure").removeClass("d-none");
+            }
+
+            addingBtn.addClass("active");
+        });
+    }
 }
 
 $().ready( function() {

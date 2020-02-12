@@ -17,8 +17,7 @@ from django.contrib import admin
 from django.contrib.auth import views
 from django.urls import path, include
 from django.conf.urls import url, include
-from store.views import my_games, add_game, add_review, play_game, edit_profile, index, page_logout, add_game, show_game,show_payment_error, show_payment_cancel
-from store.views import register, activate, password_recovery, reset
+from store.views import *
 from store.game_developer_info import *
 from store_rest_api_v1 import urls as api_urls
 
@@ -37,6 +36,7 @@ urlpatterns = [
     path('accounts/login/', views.LoginView.as_view(), name="login"),
     path('accounts/my_games', my_games),
     path('games/add/', add_game),
+    path('game/edit/<int:game_id>/<str:game_name>/', edit_game),
 
     path('game/<int:game_id>/<str:game_name>', show_game),
     path('game/<int:game_id>/<str:game_name>/add_review', add_review),

@@ -24,7 +24,7 @@ SECRET = "-mri43GwM1XA8otOwbyFxY9dVHgA"
 # Other testing pair: seller id PcwrDFRlc3RTZWxsZXI=, secret ajkv4gfixxyaW5EjgTtDgRxj9eoA
 
 PAYMENT_SERVICE_URL = "https://tilkkutakki.cs.aalto.fi/payments/pay"
-WEBSITE_ADDRESS = "http://127.0.0.1:8000"
+WEBSITE_ADDRESS = "http://radiant-refuge-85599.herokuapp.com/"
 
 ongoing_payments = {}
 
@@ -240,7 +240,8 @@ def add_game(request):
     if request.method == 'GET':
 
         ctx = {
-            "current_username": current_user.username
+            "current_username": current_user.username,
+            "add_or_edit": "Add"
         }
 
         return render(request, 'add_game.html', context=ctx)
@@ -269,6 +270,48 @@ def add_game(request):
 
             if new_game == None:
                 addingFailed = True
+        except Exception as e:
+            addingFailed = True
+
+        return HttpResponse(json.dumps({"success": not addingFailed}))
+
+@require_http_methods(["GET", "POST"])
+@login_required(login_url='/accounts/login/')
+def edit_game(request, game_id, game_name):
+    current_user = request.user
+    if not current_user.is_developer():
+        return render(request, 'you_are_not_developer.html')
+
+    game_to_edit = None
+    try:
+        game_to_edit = Game.objects.get(pk=game_id)
+    except:
+        return render(request, 'no_such_game.html')
+
+    if game_to_edit.developer != current_user:
+        return render(request, 'no_such_game.html')
+
+    if request.method == 'GET':
+
+        ctx = {
+            "current_username": current_user.username,
+            "add_or_edit": "Edit",
+            "game": game_to_edit
+        }
+
+        return render(request, 'add_game.html', context=ctx)
+    elif request.method == 'POST':
+        game_to_edit.title = request.POST.get('gameTitle')
+        game_to_edit.description = request.POST.get('gameDescription')
+        game_to_edit.screenshots = request.POST.get('screenshot')
+        game_to_edit.category = request.POST.get('gameCategory')
+        game_to_edit.minimumAge = int(quest.POST.get('minAge'))
+        game_to_edit.price = float(request.POST.get('price'))
+        game_to_edit.url = request.POST.get('gameUrl')
+
+        addingFailed = False
+        try:
+            game_to_edit.save()
         except Exception as e:
             addingFailed = True
 
