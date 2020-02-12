@@ -15,19 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls import url, include
-from store.views import *
+from store.views import my_games, add_game, add_review, play_game, edit_profile, index, page_logout, add_game, show_game,show_payment_error, show_payment_cancel
+from store.views import register, activate, password_recovery, reset
 from store.game_developer_info import *
 from store_rest_api_v1 import urls as api_urls
 
-
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('accounts/signup/', register, name='register'),
     path('accounts/activate/<uidb64>/<token>/', activate, name='activate'),
     #path('accounts/signup_developer/',views.register_developer),
-    path('accounts/password_recovery/', password_recovery),
+    path('accounts/password_recovery/', password_recovery, name='password_recovery'),
     path('accounts/reset/<uidb64>/<token>/', reset, name='reset'),
     #path('reset/done/', views.password_reset_done),
     path('', index, name="home"),
@@ -41,6 +42,7 @@ urlpatterns = [
     path('game/<int:game_id>/<str:game_name>/add_review', add_review),
     path('payment_error', show_payment_error),
     path('payment_cancelled', show_payment_cancel),
+    url(r'^accounts/', include('allauth.urls')),
 
     path('game/<int:game_id>/<str:game_name>/play', play_game),
 
@@ -50,6 +52,4 @@ urlpatterns = [
     path('game/<int:game_id>/<str:game_name>/play/post_settings', post_settings),
 
     path('apiv1/', include(api_urls)),
-
-    url(r'^accounts/', include('allauth.urls')),
 ]

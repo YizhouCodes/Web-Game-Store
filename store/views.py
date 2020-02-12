@@ -33,25 +33,24 @@ ongoing_payments = {}
 ####################################################################################################
 
 def register(request):
-    if request.method == 'GET':
-        print("getttt")
-        return render(request, 'register.html', {'form': [signUpFormPlayer(), signUpFormDeveloper()]})
-
     if request.method == 'POST':
         if(request.POST.get('date_of_birth')!= None):
             print("in if")
             form = signUpFormPlayer (request.POST)
             if form.is_valid():
                 return sendMail(request,form,1)
-
+            else:
+                msg = form.errors.as_text()
         else:
             print("in else")
             form = signUpFormDeveloper (request.POST)
             if form.is_valid():
                 return sendMail(request,form,2)
             else:
-                msg = 'Errors: %s' % form.errors.as_text()
-                return HttpResponse(msg, status=400)
+                msg = form.errors.as_text()
+                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg})
+
+    return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper()})
 
 ####################################################################################################
 ####################################### SEND MAIL TO USER ##########################################
@@ -114,11 +113,11 @@ def password_recovery(request):
                 return render(request, 'password_recovery.html')
 
         if request.method == 'POST':
-            email = request.POST.get('email')
+            username = request.POST.get('username')
+            #print(username)
             try:
-                user = GeneralUser.objects.get(email=email)
-                print(user.username)
-                print(email)
+                user = GeneralUser.objects.get(username=username)
+                ##print(user.email)
             except :
                 return HttpResponse(json.dumps({"success": False}))
 
@@ -129,7 +128,7 @@ def password_recovery(request):
                 'token':account_activation_token.make_token(user),
             })
 
-            wrappedMail = EmailMessage ("Reset Password" , message , to = [email])
+            wrappedMail = EmailMessage ("Reset Password" , message , to = [user.email])
             wrappedMail.send()
 
             try:
