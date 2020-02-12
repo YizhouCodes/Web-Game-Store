@@ -49,14 +49,14 @@
             </p>
         </div>
 
-    </div>
-
-    <div id="reviewsDiv">
-        {% for review in reviews %}
-            <p><b>{{ review.playerId }}</b></p>
-            <p>{{ review.description}}</p>
-            <p>Rating: {{ review.rating }}</p>
-        {% endfor %}
+        <div id="reviewsDiv" class="col-lg-4 col-md-6 mb-4">
+            {% for review in reviews %}
+                <p><b>{{ review.playerId }}</b></p>
+                <p>{{ review.description}}</p>
+                <p>Rating: {{ review.rating }}</p>
+                <hr>
+            {% endfor %}
+        </div>
     </div>
 
     {% if is_player and player_has_this_game %}

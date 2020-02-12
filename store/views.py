@@ -301,9 +301,16 @@ def play_game(request, game_id, game_name):
         if datetime.timedelta(days=g.minimumAge*365) > (datetime.date.today() - current_user.date_of_birth):
             raise Exception()
 
+        # Get 4 highest scores of this game
+        highest_scores = PlayersGames.objects.get(gameId=game_id).filter(score__gt=0).order_by("-score")[:4]
+        #highest_scores = [str(s.score) ]
+        no_highest_scores = len(highest_scores) > 0
+
         ctx = {
             "game_url": g.url,
-            "game_title": g.title
+            "game_title": g.title,
+            "no_highest_scores": no_highest_scores,
+            "scores": highest_scores
         }
         return render(request, 'play_game.html', context=ctx)
     except Exception as e:

@@ -14,6 +14,19 @@
         <script type="text/javascript" src="{% static 'scripts/play_game.js' %}"></script>
     </head>
     <body>
+
+        <p>
+            {% if no_highest_scores %}
+            Highest scores ever: no highest scores. Be first!
+            {% else %}
+            <ol type="1">
+            {% for s in scores}
+                <li>s</li>
+            {% endfor %}
+            </ol>
+            {% endif %}
+        </p>
+
         <iframe id="game" src="{{ game_url }}" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
             Cannot load game
         </iframe>
