@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views
 from django.urls import path, include
+from django.conf.urls import url, include
 from store.views import edit_profile, index, page_logout, add_game, show_game,show_payment_error, show_payment_cancel
 from store.views import register, activate, password_recovery, reset
 
 
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('accounts/signup/', register, name='register'),
     path('accounts/activate/<uidb64>/<token>/', activate, name='activate'),
@@ -38,5 +40,6 @@ urlpatterns = [
     path('game/<int:game_id>/<str:game_name>', show_game),
     path('payment_error', show_payment_error),
     path('payment_cancelled', show_payment_cancel),
+    url(r'^accounts/', include('allauth.urls')),
 
 ]

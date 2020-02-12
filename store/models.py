@@ -12,8 +12,8 @@ class GeneralUser(AbstractUser):
         (DEVELOPER, 'Developer'),
     )
 
-    date_of_birth = models.DateField()
-    payment_info = models.TextField()
+    date_of_birth = models.DateField(default="2020-02-20")
+    payment_info = models.TextField(default="")
 
     user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=PLAYER)
 
@@ -24,7 +24,7 @@ class GeneralUser(AbstractUser):
 
     def is_developer(self):
         return self.user_type == GeneralUser.DEVELOPER
-    
+
 
 class Game(models.Model):
     title = models.CharField(max_length=256)

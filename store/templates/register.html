@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load socialaccount %}
+{% providers_media_js %}
 
 {% block title %}Register{% endblock %}
 
@@ -30,6 +32,12 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+<div class="alert alert-success d-none text-center" role="alert" id="alertFailure">
+
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 <div class="container d-flex justify-content-center mt-4 mb-4"  id="mainContainer">
     <div class="col-md-5" id = "registerFormContainer">
 
@@ -54,41 +62,41 @@
              </li>
            </ul>
            <div id="tabContent" class="tab-content">
-          <form class="border text-center p-3 tab-pane show active registerForm" id="registerFormPlayer" method="post">
+          <form class="border text-center p-3 tab-pane show active" id="registerFormPlayer" method="post">
              <div id="playerForm" class="">
 
                  <div class="card-body text-left">
                    {% csrf_token %}
-                   {% for field in form.0 %}
+                   {% for field in formPlayer %}
                      <p>
                          {{ field }}
-                         <!-- {% if field.help_text %}
-                           <small style="color: grey">{{ field.help_text }}</small>
-                         {% endif %} -->
                          {% for error in field.errors %}
-                           <p style="color: red">{{ error }}</p>
+                           <p style="color:red">{{error}}</p>
                          {% endfor %}
                      {% endfor %}
+                     <p style="color: red">{{ errors}}</p>
                    </div>
                    <button class="btn btn-primary btn-block registerBtn" type="submit" id="registerBtnPlayer">Sign up</button>
                  </div>
              </form>
 
-                <form class="border text-center p-3 tab-pane registerForm" id="registerFormDeveloper" method="post">
+                <form class="border text-center p-3 tab-pane" id="registerFormDeveloper" method="post">
 
                 <div id="developerForm" class="">
                      <div class="card-body text-left">
                        {% csrf_token %}
-                       {% for field in form.1 %}
+                       {% for field in formDeveloper %}
                          <p>
                              {{ field }}
 
                              {% for error in field.errors %}
-                               <p style="color: red">{{ error }}</p>
+                               <p style="color: red">{{error}}</p>
                              {% endfor %}
                          {% endfor %}
 
-                     </div>
+                            <p style="color: red">{{errors}}</p>
+
+                          </div>
                      <button class="btn btn-primary  btn-block registerBtn" type="submit" id="registerBtnDeveloper">Sign up</button>
                   </div>
                   </form>
@@ -97,7 +105,7 @@
                <div class="text-center mt-2">
                <p>or sign up with:</p>
 
-                  <a type="button" class="text-primary  mx-2">
+                  <a type="button" class="text-primary  mx-2"  href="{% provider_login_url 'facebook' method='oauth2' %}">
                       <i class="fa fa-facebook "></i>
                   </a>
                   <a type="button" class="text-primary  mx-2">

@@ -30,26 +30,24 @@ ongoing_payments = {}
 ####################################################################################################
 
 def register(request):
-    if request.method == 'GET':
-        print("getttt")
-        return render(request, 'register.html', {'form': [signUpFormPlayer(), signUpFormDeveloper()]})
-
     if request.method == 'POST':
         if(request.POST.get('date_of_birth')!= None):
             print("in if")
             form = signUpFormPlayer (request.POST)
             if form.is_valid():
                 return sendMail(request,form,1)
-
+            else:
+                msg = form.errors.as_text()
         else:
             print("in else")
             form = signUpFormDeveloper (request.POST)
             if form.is_valid():
                 return sendMail(request,form,2)
             else:
-                msg = 'Errors: %s' % form.errors.as_text()
-                return HttpResponse(msg, status=400)
+                msg = form.errors.as_text()
+                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg})
 
+    return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper()})
 ####################################################################################################
 ####################################### SEND MAIL TO USER ##########################################
 ####################################################################################################
