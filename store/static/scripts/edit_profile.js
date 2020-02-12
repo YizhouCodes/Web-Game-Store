@@ -1,8 +1,7 @@
 function onDoProfileUpdate(updateBtn) {
-    
+
     $.post("/accounts/edit_profile/", $("#updateForm").serialize(), function(data, status) {
         data = JSON.parse(data);
-
         if (status === "success" && data.success) {
             $("#alertSuccess").removeClass("d-none");
         } else {

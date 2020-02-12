@@ -1,0 +1,10 @@
+{% autoescape off %}
+
+Hi,
+
+Use the link below to set up a new password for your account.
+http://{{ domain }}{% url 'reset' uidb64=uid token=token %}
+
+If you did not request to reset your password, no furthur action is required.
+
+{% endautoescape %}

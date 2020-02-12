@@ -3,3 +3,5 @@ gunicorn
 django-heroku
 djangorestframework
 django-filter
+django-allauth
+six

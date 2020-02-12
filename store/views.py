@@ -9,6 +9,15 @@ import json.scanner
 from .models import Game, GeneralUser, PlayersGames, Review
 from hashlib import md5
 import json, datetime, uuid
+from .forms import signUpFormPlayer, signUpFormDeveloper
+from django.contrib.sites.shortcuts import get_current_site
+from .tokens import account_activation_token
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
 
 SECRET = "-mri43GwM1XA8otOwbyFxY9dVHgA"
 
@@ -18,6 +27,141 @@ PAYMENT_SERVICE_URL = "https://tilkkutakki.cs.aalto.fi/payments/pay"
 WEBSITE_ADDRESS = "http://127.0.0.1:8000"
 
 ongoing_payments = {}
+
+####################################################################################################
+################################## REGISTER PLAYER AND DEVELOPER ###################################
+####################################################################################################
+
+def register(request):
+    if request.method == 'GET':
+        print("getttt")
+        return render(request, 'register.html', {'form': [signUpFormPlayer(), signUpFormDeveloper()]})
+
+    if request.method == 'POST':
+        if(request.POST.get('date_of_birth')!= None):
+            print("in if")
+            form = signUpFormPlayer (request.POST)
+            if form.is_valid():
+                return sendMail(request,form,1)
+
+        else:
+            print("in else")
+            form = signUpFormDeveloper (request.POST)
+            if form.is_valid():
+                return sendMail(request,form,2)
+            else:
+                msg = 'Errors: %s' % form.errors.as_text()
+                return HttpResponse(msg, status=400)
+
+####################################################################################################
+####################################### SEND MAIL TO USER ##########################################
+####################################################################################################
+def sendMail(request,form , type):
+
+    print(type)
+    user = form.save (commit = False)
+    user.is_active = False
+    user.user_type = type
+    if (type == 2):
+        user.date_of_birth = "1000-10-10"
+    user.save()
+
+    current_site = get_current_site(request)
+    username = form.cleaned_data.get('username')
+
+    email = form.cleaned_data.get('email')
+    message = render_to_string('activate_mail.html', {
+        'username': username,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.id)),
+        'token':account_activation_token.make_token(user),
+    })
+
+    wrappedMail = EmailMessage ("Activate your Account" , message , to = [email])
+    wrappedMail.send()
+
+    try:
+        return HttpResponse(json.dumps({"success": True}))
+    except:
+        return HttpResponse(json.dumps({"success": False}))
+
+####################################################################################################
+####################################### ACTIVATE ACCOUNT  ##########################################
+####################################################################################################
+
+def activate(request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = GeneralUser.objects.get(id=uid)
+
+        except(TypeError, ValueError, OverflowError, GeneralUser.DoesNotExist):
+            user = None
+
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+
+            return render(request, 'activate_account_result.html', {"success": True})
+        else:
+            return render(request, 'activate_account_result.html', {"success": False})
+
+####################################################################################################
+######################################### RESET PASSWORD  ##########################################
+####################################################################################################
+
+def password_recovery(request):
+        if request.method == 'GET':
+                return render(request, 'password_recovery.html')
+
+        if request.method == 'POST':
+            email = request.POST.get('email')
+            try:
+                user = GeneralUser.objects.get(email=email)
+                print(user.username)
+                print(email)
+            except :
+                return HttpResponse(json.dumps({"success": False}))
+
+            current_site = get_current_site(request)
+            message = render_to_string('passwrod_recovery_mail.html', {
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.id)),
+                'token':account_activation_token.make_token(user),
+            })
+
+            wrappedMail = EmailMessage ("Reset Password" , message , to = [email])
+            wrappedMail.send()
+
+            try:
+                return HttpResponse(json.dumps({"success": True}))
+            except:
+                return HttpResponse(json.dumps({"success": False}))
+
+####################################################################################################
+######################################### SET PASSWORD  ############################################
+####################################################################################################
+
+def reset(request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = GeneralUser.objects.get(id=uid)
+
+        except(TypeError, ValueError, OverflowError, GeneralUser.DoesNotExist):
+            user = None
+
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+
+            return render(request, 'password_change.html', {"success": True})
+        else:
+            return render(request, 'password_change.html', {"success": False})
+
+
+####################################################################################################
+######################################### EDIT PROFILE  ############################################
+####################################################################################################
+
 
 @require_http_methods(["GET", "POST"])
 @login_required(login_url='/accounts/login/')
@@ -131,10 +275,49 @@ def add_game(request):
 
         return HttpResponse(json.dumps({"success": not addingFailed}))
 
+
+####################################################################################################
+######################################### DELETE GAME  #############################################
+####################################################################################################
+
+@require_http_methods(["DELETE"])
+@login_required(login_url='/accounts/login/')
+def delete_game(request, game_id, game_name):
+
+    game = Game.objects.get(pk = game_id)
+    game.delete()
+    return HttpResponse('deleted')
+
+####################################################################################################
+#########################################  MANGE GAME  #############################################
+####################################################################################################
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='/accounts/login/')
+def manage_game(request, game_id, game_name):
+
+    game = Game.objects.get(id = game_id)
+    game.title = request.POST.get('gameTitle')
+    game.desc = request.POST.get('gameDescription')
+    game.screenshots = request.POST.get('screenshot')
+    game.category = request.POST.get('gameCategory')
+    game.minAge = request.POST.get('minAge')
+    game.price = request.POST.get('price')
+    game.gameUrl = request.POST.get('gameUrl')
+
+    game.save()
+
+####################################################################################################
+#########################################   SHOW GAME  #############################################
+####################################################################################################
+
+
 @require_http_methods(["GET", "POST"])
 @login_required(login_url='/accounts/login/')
 def show_game(request, game_id, game_name):
     current_user = request.user
+
     if request.method == 'GET':
 
         price = 0.0
@@ -255,7 +438,7 @@ def show_game(request, game_id, game_name):
                 "error_url": error_url,
                 "checksum": checksum
             })
-            
+
             ongoing_payments[payment_id] = True
             return HttpResponseRedirect(PAYMENT_SERVICE_URL + "?" + query)
         except:
