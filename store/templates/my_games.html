@@ -10,6 +10,16 @@
 {% block content %}
 
 <div class="container" id="mainContainer">
+	{% if is_developer %}
+	<form class="form-horizontal" id="addForm" method="GET" action="/games/add">
+		{% csrf_token %}
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary" id="addButton">Add a new game</button>
+			</div>
+		</div>
+	</form>
+	{% endif %}
 	<ul>
 		{% for game in games %}
 		<li>
@@ -18,7 +28,7 @@
         		{% csrf_token %}
         			<div class="form-group">
             			<div class="col-sm-offset-2 col-sm-10">
-                			<button type="submit" class="btn btn-primary btn-sm" id="playButton" data-arg1="{{ price }}">Play {{ game.title }}</button>
+                			<button type="submit" class="btn btn-primary btn-sm" id="playButton" data-arg1="{{ price }}">Play</button>
             			</div>
         			</div>
     		</form>

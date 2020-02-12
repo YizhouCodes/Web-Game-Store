@@ -67,6 +67,7 @@ def index(request):
     for game in allGames:
         if game.category not in categoryList:
             categoryList.append(game.category)
+
     context = {'games': games, 'categories': categoryList}
     return render(request, 'index.html', context)
 
@@ -83,7 +84,7 @@ def my_games(request):
         userGames = Game.objects.all().filter(developer = request.user.id)
     else:
         userGames = [g.gameId for g in PlayersGames.objects.all().filter(playerId = request.user.id)]
-    context = {'games': userGames}
+    context = {'games': userGames, 'is_developer': request.user.is_developer()}
     return render(request, 'my_games.html', context)
 
 @require_http_methods(["GET", "POST"])
