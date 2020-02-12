@@ -499,4 +499,3 @@ def play_game(request, game_id, game_name):
     except Exception as e:
         print(e)
         return render(request, 'no_such_game.html')
-

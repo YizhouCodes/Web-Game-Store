@@ -15,9 +15,7 @@
 		<p class="h4 mb-3 mt-3 text-center">Sign in</p>
 		<hr>
 		{% if form.errors %}
-		<div class="alert alert-danger" role="alert" id="alertError">
-            Username or password was wrong!
-         </div>
+		<script>alert("Username or password was wrong!")</script>
 		{% endif %}
 		<div class="form-group">
 			{% csrf_token %}
