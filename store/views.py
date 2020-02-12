@@ -48,6 +48,7 @@ def register(request):
                 return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg})
 
     return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper()})
+
 ####################################################################################################
 ####################################### SEND MAIL TO USER ##########################################
 ####################################################################################################
@@ -109,11 +110,11 @@ def password_recovery(request):
                 return render(request, 'password_recovery.html')
 
         if request.method == 'POST':
-            email = request.POST.get('email')
+            username = request.POST.get('username')
+            #print(username)
             try:
-                user = GeneralUser.objects.get(email=email)
-                print(user.username)
-                print(email)
+                user = GeneralUser.objects.get(username=username)
+                ##print(user.email)
             except :
                 return HttpResponse(json.dumps({"success": False}))
 
@@ -124,7 +125,7 @@ def password_recovery(request):
                 'token':account_activation_token.make_token(user),
             })
 
-            wrappedMail = EmailMessage ("Reset Password" , message , to = [email])
+            wrappedMail = EmailMessage ("Reset Password" , message , to = [user.email])
             wrappedMail.send()
 
             try:
