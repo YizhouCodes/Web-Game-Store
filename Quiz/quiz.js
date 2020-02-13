@@ -152,11 +152,13 @@ $(document).ready(function ()
   	$("#saveButton").on("click", function (){
       var message =  {
           messageType: "SAVE",
-          gameState: {
-
+          gameState: {'score': correctAnswers,
+                       'time' : c,
+                       'currentQ' : currentQuestion,
+                       'answers' : selectedAnswer
           }
         };
-      window.parent.postMessage(msg, "*");
+      window.parent.postMessage(message, "*");
   });
 
 //########################################### LOAD BUTTON CLICKED #################################
@@ -167,10 +169,16 @@ $(document).ready(function ()
       });
       window.addEventListener("message", function(evt) {
     if(evt.data.messageType === "LOAD") {
-      playerItems = evt.data.gameState.playerItems;
-      points = evt.data.gameState.score;
-      $("#score").text(points);
-      updateItems();
+      correctAnswers = evt.data.gameState.score;
+      c = evt.data.gameState.time;
+      selectedAnswer = evt.gameState.answers;
+      currentQuestion = evt.data.gameState.currentQ;
+
+      $('#iTimeShow').html('<i class="fa fa-stopwatch"></i>  Time Remaining');
+      $('#timer').html("");
+      timer();
+     
+      displayCurrentQuestion();
     } else if (evt.data.messageType === "ERROR") {
       alert(evt.data.info);
     }
