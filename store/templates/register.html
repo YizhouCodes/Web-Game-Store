@@ -25,13 +25,13 @@
       {% if player %}
       $("#registerFormPlayer").addClass("active");
       $("#registerFormDeveloper").removeClass("active");
-      $("#errorPlayer").addClass("d-none");
-      $("#errorDeveloper").removeClass("d-none");
+      $("#errorPlayer").removeClass("d-none");
+      $("#errorDeveloper").addClass("d-none");
       {% else %}
       $("#registerFormPlayer").removeClass("active");
       $("#registerFormDeveloper").addClass("active");
-      $("#errorPlayer").removeClass("d-none");
-      $("#errorDeveloper").addClass("d-none");
+      $("#errorPlayer").addClass("d-none");
+      $("#errorDeveloper").removeClass("d-none");
       {% endif %}
       });
     </script>

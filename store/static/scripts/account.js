@@ -43,7 +43,10 @@ $().ready( function() {
   });
 
   $('#changePasswordForm').submit(function(e){
-    if (!isPasswordsOk) return;
+    if (!isPasswordsOk) {
+        e.preventDefault();
+        return;
+    }
     if (!($("#password_change").val().length === 0 )){
       $.post("accounts/reset/<uidb64>/<token>/");
     }
