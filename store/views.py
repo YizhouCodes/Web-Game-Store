@@ -149,12 +149,21 @@ def reset(request, uidb64, token):
             user = None
 
         if user is not None and account_activation_token.check_token(user, token):
-            user.is_active = True
-            user.save()
-
             return render(request, 'password_change.html', {"success": True})
         else:
             return render(request, 'password_change.html', {"success": False})
+
+
+####################################################################################################
+######################################### CHANGE PASSWORD DONE #####################################
+####################################################################################################
+
+def reset_done(request):
+    if request.method == 'POST':
+        password = request.POST.get('password_change')
+        print(password)
+        print(request.user)
+    return render(request, 'password_change_done.html', {"success": False})
 
 
 ####################################################################################################

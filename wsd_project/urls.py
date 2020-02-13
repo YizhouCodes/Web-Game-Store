@@ -29,7 +29,7 @@ urlpatterns = [
     #path('accounts/signup_developer/',views.register_developer),
     path('accounts/password_recovery/', password_recovery, name='password_recovery'),
     path('accounts/reset/<uidb64>/<token>/', reset, name='reset'),
-    #path('reset/done/', views.password_reset_done),
+    path('accounts/reset/done/', reset_done, name='reset_done'),
     path('', index, name="home"),
     path('accounts/edit_profile/', edit_profile),
     path('accounts/logout/', page_logout, name="logout"),
