@@ -33,6 +33,7 @@
             			</div>
         			</div>
 			</form>
+			{% if is_developer %}
 			<form class="form-horizontal" id="editForm" method="GET" action="/game/edit/{{ game.id }}/{{ game.title }}/">
         		{% csrf_token %}
         			<div class="form-group">
@@ -40,7 +41,8 @@
                 			<button type="submit" class="btn btn-primary btn-sm" id="editButton">Edit</button>
             			</div>
         			</div>
-    		</form>
+			</form>
+			{% endif %}
 		</li>
 		{% endfor %}
 	</ul>
