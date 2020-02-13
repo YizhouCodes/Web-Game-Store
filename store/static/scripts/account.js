@@ -35,12 +35,13 @@ $().ready( function() {
         $("#message_change").removeClass("d-none");
         
 
+
   });
 
   $('#changePasswordForm').submit(function(e){
-
-    if (!($("#password_change").val() == ""))
+    if (!($("#password_change").val().length === 0 )){
       $.post("accounts/reset/<uidb64>/<token>/")
+    }
   });
 
     resetBtn = $("#resetBtn");

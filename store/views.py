@@ -99,6 +99,7 @@ def activate(request, uidb64, token):
             user = None
 
         if user is not None and account_activation_token.check_token(user, token):
+            user.set_password(user.password)
             user.is_active = True
             user.save()
 
@@ -151,7 +152,7 @@ def reset(request, uidb64, token):
         user.set_password(password)
         user.is_active = True
         user.save()
-        print(user.password1)
+        print(user.password)
 
         return render(request, 'password_change_done.html', {"success": False})
 
