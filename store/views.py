@@ -292,6 +292,8 @@ def add_game(request):
                 url = gameUrl,
                 minimumAge = minAge)
 
+            PlayersGames.objects.create(gameId=new_game, playerId=current_user, score=0.0, gameState="")
+
             if new_game == None:
                 addingFailed = True
         except Exception as e:
