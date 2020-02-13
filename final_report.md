@@ -79,7 +79,7 @@
 4) Own game
 	- A game about recognizing flags belonging to different countries. 
 	- Saving, loading and highscore functionality.
-	- TODO: WHERE IS THE GAME HOSTED
+	- The game is hosted on Heroku: https://radiant-refuge-85599.herokuapp.com/static/game/index.html
 	- **Expected points:** 100 points. 
 
 5) Mobile friendly
