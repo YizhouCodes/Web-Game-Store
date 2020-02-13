@@ -1,6 +1,6 @@
 # WSD-Project Project Plan
 
-[a relative link](final_report.md)
+[the final report](final_report.md)
 
 ### 1. Team Members
 - Dawid Worek (795674)
