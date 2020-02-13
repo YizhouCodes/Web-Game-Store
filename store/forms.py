@@ -12,7 +12,7 @@ class signUpFormPlayer(UserCreationForm):
             'date_of_birth': forms.DateInput(attrs={"placeholder":"Date of birth", 'class':'datepicker'}),
 			'email': forms.EmailInput(attrs={"placeholder": "Email","class": "form-control"}),
 			'username': forms.TextInput(attrs={"placeholder": "Username","class": "form-control"}),
-			'password1': forms.TextInput(attrs={"placeholder": "Password","class": "form-control"}),
+			'password1': forms.PasswordInput(attrs={"placeholder": "Password","class": "form-control"}),
 			'password2': forms.PasswordInput(attrs={"placeholder": "Confirm Password","class": "form-control"}),
 
         }

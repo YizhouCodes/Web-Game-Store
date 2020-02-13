@@ -28,6 +28,8 @@ WEBSITE_ADDRESS = "http://radiant-refuge-85599.herokuapp.com/"
 
 ongoing_payments = {}
 
+
+
 ####################################################################################################
 ################################## REGISTER PLAYER AND DEVELOPER ###################################
 ####################################################################################################
@@ -141,6 +143,19 @@ def password_recovery(request):
 ####################################################################################################
 
 def reset(request, uidb64, token):
+
+    if request.method == 'POST' :
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = GeneralUser.objects.get(id=uid)
+        password = request.POST.get('password_change')
+        user.set_password(password)
+        user.is_active = True
+        user.save()
+        print(user.password1)
+
+        return render(request, 'password_change_done.html', {"success": False})
+
+    else:
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = GeneralUser.objects.get(id=uid)
@@ -161,8 +176,7 @@ def reset(request, uidb64, token):
 def reset_done(request):
     if request.method == 'POST':
         password = request.POST.get('password_change')
-        print(password)
-        print(request.user)
+
     return render(request, 'password_change_done.html', {"success": False})
 
 
