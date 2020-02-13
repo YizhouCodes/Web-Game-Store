@@ -1,5 +1,5 @@
 function afterRegister(registerBtn) {
-    $.post("/accounts/signup/", $("#registerForm").serialize(), function(data, status) {
+    $.post("/accounts/signup/", $("#registerFormPlayer").serialize(), function(data, status) {
         data = JSON.parse(data);
 
         if (status === "success" && data.success) {
@@ -9,6 +9,16 @@ function afterRegister(registerBtn) {
     });
 }
 
+function afterRegisterDev(registerBtn) {
+    $.post("/accounts/signup/", $("#registerFormDeveloper").serialize(), function(data, status) {
+        data = JSON.parse(data);
+
+        if (status === "success" && data.success) {
+            $("#alertSuccess").removeClass("d-none");
+        }
+        registerBtn.addClass("active");
+    });
+}
 function afterPasswordRecovery(resetBtn) {
 
     $.post("/accounts/password_recovery/", $("#resetPasswordForm").serialize(), function(data, status) {
@@ -52,6 +62,17 @@ $().ready( function() {
     }
   });
 
+  regPlayerBtn = $("#registerBtnPlayer");
+  $("#registerFormPlayer").submit( function(e) {
+      e.preventDefault();
+      afterRegister(regPlayerBtn)
+  });
+
+  regDevBtn = $("#registerBtnDeveloper");
+  $("#registerFormDeveloper").submit( function(e) {
+      e.preventDefault();
+      afterRegisterDev(regPlayerBtn)
+  });
     resetBtn = $("#resetBtn");
     $("#resetPasswordForm").submit( function(e) {
         e.preventDefault();
