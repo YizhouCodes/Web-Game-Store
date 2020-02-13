@@ -69,10 +69,10 @@
                      <p>
                          {{ field }}
                          {% for error in field.errors %}
-                           <p style="color:red">{{error}}</p>
+                           <p style="color:red">{{ error }}</p>
                          {% endfor %}
                      {% endfor %}
-                     <p style="color: red">{{ errors}}</p>
+                     <p style="color: red">{{ errors }}</p>
                    </div>
                    <button class="btn btn-primary btn-block registerBtn" type="submit" id="registerBtnPlayer">Sign up</button>
                  </div>
@@ -88,11 +88,11 @@
                              {{ field }}
 
                              {% for error in field.errors %}
-                               <p style="color: red">{{error}}</p>
+                               <p style="color: red">{{ error }}</p>
                              {% endfor %}
                          {% endfor %}
 
-                            <p style="color: red">{{errors}}</p>
+                            <p style="color: red">{{ errors }}</p>
 
                           </div>
                      <button class="btn btn-primary  btn-block registerBtn" type="submit" id="registerBtnDeveloper">Sign up</button>

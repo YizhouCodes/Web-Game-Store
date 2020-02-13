@@ -158,6 +158,8 @@ $(document).ready(function ()
                        'answers' : selectedAnswer
           }
         };
+        $('#iTimeShow').html('<i class="fa fa-stopwatch"></i>  Timer Stopped ');
+        $('#timer').html("");
       window.parent.postMessage(message, "*");
   });
 
@@ -173,6 +175,8 @@ $(document).ready(function ()
       c = evt.data.gameState.time;
       selectedAnswer = evt.gameState.answers;
       currentQuestion = evt.data.gameState.currentQ;
+
+      this.console.log(evt.data.gameState);
 
       $('#iTimeShow').html('<i class="fa fa-stopwatch"></i>  Time Remaining');
       $('#timer').html("");
