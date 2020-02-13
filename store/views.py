@@ -43,7 +43,7 @@ def register(request):
                 return sendMail(request,form,1)
             else:
                 msg = form.errors.as_text()
-                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg})
+                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg, 'player': True})
         else:
             print("in else")
             form = signUpFormDeveloper (request.POST)
@@ -51,9 +51,9 @@ def register(request):
                 return sendMail(request,form,2)
             else:
                 msg = form.errors.as_text()
-                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg})
+                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg, 'player': False})
 
-    return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper()})
+    return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'player': True})
 
 ####################################################################################################
 ####################################### SEND MAIL TO USER ##########################################

@@ -16,7 +16,23 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
   <script>
       $(function () {
-        $(".datepicker").datepicker();
+        $('.datepicker').val("").datepicker("update");
+        $(".datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "1900:2019"
+      });
+      {% if player %}
+      $("#registerFormPlayer").addClass("active");
+      $("#registerFormDeveloper").removeClass("active");
+      $("#errorPlayer").addClass("d-none");
+      $("#errorDeveloper").removeClass("d-none");
+      {% else %}
+      $("#registerFormPlayer").removeClass("active");
+      $("#registerFormDeveloper").addClass("active");
+      $("#errorPlayer").removeClass("d-none");
+      $("#errorDeveloper").addClass("d-none");
+      {% endif %}
       });
     </script>
 
@@ -72,7 +88,7 @@
                            <p style="color:red">{{ error }}</p>
                          {% endfor %}
                      {% endfor %}
-                     <p style="color: red">{{ errors }}</p>
+                     <p id="errorPlayer" class="d-none" style="color: red">{{ errors }}</p>
                    </div>
                    <button class="btn btn-primary btn-block registerBtn" type="submit" id="registerBtnPlayer">Sign up</button>
                  </div>
@@ -92,7 +108,7 @@
                              {% endfor %}
                          {% endfor %}
 
-                            <p style="color: red">{{ errors }}</p>
+                            <p id="errorDeveloper" class="d-none" style="color: red">{{ errors }}</p>
 
                           </div>
                      <button class="btn btn-primary  btn-block registerBtn" type="submit" id="registerBtnDeveloper">Sign up</button>

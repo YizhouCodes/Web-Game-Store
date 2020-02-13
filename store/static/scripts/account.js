@@ -23,24 +23,29 @@ function afterPasswordRecovery(resetBtn) {
     });
 }
 
+var isPasswordsOk = false;
 $().ready( function() {
   // check if password and confirmation password are the same dynamically in change password
   $('#password_change, #confirm_password_change').on('keyup', function (e) {
 
     if ($('#password_change').val() == $('#confirm_password_change').val()) {
 
-        $(".password_change_Btn").prop("disabled", false);
+        //$(".password_change_Btn").prop("disabled", false);
+        isPasswordsOk = true;
         $("#message_change").addClass("d-none");
-    } else
+    } else {
         $("#message_change").removeClass("d-none");
+        isPasswordsOk = false;
+    }
         
 
 
   });
 
   $('#changePasswordForm').submit(function(e){
+    if (!isPasswordsOk) return;
     if (!($("#password_change").val().length === 0 )){
-      $.post("accounts/reset/<uidb64>/<token>/")
+      $.post("accounts/reset/<uidb64>/<token>/");
     }
   });
 

@@ -158,6 +158,7 @@ $("#playAgainButton").on("click" , function(){
                      'answers' : selectedAnswer
         }
       };
+      c = 100;
       $('#iTimeShow').html('<i class="fa fa-stopwatch"></i>  Timer Stopped ');
       $('#timer').html("");
     window.parent.postMessage(message, "*");
@@ -181,7 +182,9 @@ $("#playAgainButton").on("click" , function(){
     $('#iTimeShow').html('<i class="fa fa-stopwatch"></i>  Time Remaining');
     $('#timer').html("");
     timer();
-   
+    if (currentQuestion > 1) {
+      $('#backButton').prop("disabled", false);
+    }
     displayCurrentQuestion();
   } else if (evt.data.messageType === "ERROR") {
     alert(evt.data.info);
