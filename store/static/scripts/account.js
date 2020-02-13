@@ -9,16 +9,6 @@ function afterRegister(registerBtn) {
     });
 }
 
-$().ready( function() {
-
-    registerBtn = $(".registerBtn");
-    $(".registerForm").submit( function(e) {
-        e.preventDefault();
-        registerBtn.removeClass("active");
-        afterRegister(registerBtn);
-    });
-} );
-
 function afterPasswordRecovery(resetBtn) {
 
     $.post("/accounts/password_recovery/", $("#resetPasswordForm").serialize(), function(data, status) {
@@ -34,6 +24,15 @@ function afterPasswordRecovery(resetBtn) {
 }
 
 $().ready( function() {
+  // check if password and confirmation password are the same dynamically in change password
+  $('#password_change, #confirm_password_change').on('keyup', function () {
+
+    if ($('#password_change').val() == $('#confirm_password_change').val()) {
+        $("#message_change").addClass("d-none");
+    } else
+        $("#message_change").removeClass("d-none");
+  });
+
     resetBtn = $("#resetBtn");
     $("#resetPasswordForm").submit( function(e) {
         e.preventDefault();

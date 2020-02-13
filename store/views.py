@@ -32,14 +32,14 @@ ongoing_payments = {}
 def register(request):
     if request.method == 'POST':
         if(request.POST.get('date_of_birth')!= None):
-            print("in if")
+            #print("in if")
             form = signUpFormPlayer (request.POST)
             if form.is_valid():
                 return sendMail(request,form,1)
             else:
                 msg = form.errors.as_text()
         else:
-            print("in else")
+            #print("in else")
             form = signUpFormDeveloper (request.POST)
             if form.is_valid():
                 return sendMail(request,form,2)
@@ -52,6 +52,7 @@ def register(request):
 ####################################################################################################
 ####################################### SEND MAIL TO USER ##########################################
 ####################################################################################################
+
 def sendMail(request,form , type):
 
     print(type)
@@ -146,18 +147,26 @@ def reset(request, uidb64, token):
             user = None
 
         if user is not None and account_activation_token.check_token(user, token):
-            user.is_active = True
-            user.save()
-
-            return render(request, 'password_change.html', {"success": True})
+            return render(request, 'password_change.html' , {'username':user.username})
         else:
-            return render(request, 'password_change.html', {"success": False})
+            return render(request, 'password_change.html')
+
+
+####################################################################################################
+######################################### CHANGE PASSWORD DONE #####################################
+####################################################################################################
+
+def reset_done(request):
+    if request.method == 'POST':
+        password = request.POST.get('password_change')
+        print(password)
+        print(request.user)
+    return render(request, 'password_change_done.html', {"success": False})
 
 
 ####################################################################################################
 ######################################### EDIT PROFILE  ############################################
 ####################################################################################################
-
 
 @require_http_methods(["GET", "POST"])
 #@login_required(login_url='/accounts/login/') # TODO to uncomment when user will be created
