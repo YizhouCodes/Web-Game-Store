@@ -173,7 +173,7 @@ $("#playAgainButton").on("click" , function(){
   if(evt.data.messageType === "LOAD") {
     correctAnswers = evt.data.gameState.score;
     c = evt.data.gameState.time;
-    selectedAnswer = evt.gameState.answers;
+    selectedAnswer = evt.data.gameState.answers;
     currentQuestion = evt.data.gameState.currentQ;
 
     this.console.log(evt.data.gameState);
