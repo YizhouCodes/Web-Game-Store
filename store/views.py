@@ -24,7 +24,7 @@ SECRET = "-mri43GwM1XA8otOwbyFxY9dVHgA"
 # Other testing pair: seller id PcwrDFRlc3RTZWxsZXI=, secret ajkv4gfixxyaW5EjgTtDgRxj9eoA
 
 PAYMENT_SERVICE_URL = "https://tilkkutakki.cs.aalto.fi/payments/pay"
-WEBSITE_ADDRESS = "http://radiant-refuge-85599.herokuapp.com/"
+WEBSITE_ADDRESS = "http://radiant-refuge-85599.herokuapp.com"
 
 ongoing_payments = {}
 
@@ -43,6 +43,7 @@ def register(request):
                 return sendMail(request,form,1)
             else:
                 msg = form.errors.as_text()
+                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg})
         else:
             print("in else")
             form = signUpFormDeveloper (request.POST)
