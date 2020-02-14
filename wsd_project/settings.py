@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ng)ue$mu8gle_qgsxg^53o5(#03*s&8@@jn=1x@w9c-nr@@k81'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['radiant-refuge-85599.herokuapp.com']
 
