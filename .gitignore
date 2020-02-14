@@ -2,5 +2,3 @@ wsd_project/__pycache__
 store/__pycache__
 store_rest_api_v1/__pycache__
 db.sqlite3
-store/migrations
-store_rest_api_v1/migrations
