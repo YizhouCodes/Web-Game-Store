@@ -43,7 +43,8 @@ def register(request):
                 return sendMail(request,form,1)
             else:
                 msg = form.errors.as_text()
-                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg, 'player': True})
+                print("MSG: " + msg)
+                return HttpResponse(json.dumps({"success": False, "errorMsg": msg, "player": True}))
         else:
             print("in else")
             form = signUpFormDeveloper (request.POST)
@@ -51,7 +52,8 @@ def register(request):
                 return sendMail(request,form,2)
             else:
                 msg = form.errors.as_text()
-                return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'errors':msg, 'player': False})
+                print("MSG dev: " + msg)
+                return HttpResponse(json.dumps({"success": False, "errorMsg": msg, "player": False}))
 
     return render(request, 'register.html', {'formPlayer': signUpFormPlayer(), 'formDeveloper' :signUpFormDeveloper(), 'player': True})
 

@@ -1,9 +1,27 @@
 function afterRegister(registerBtn) {
     $.post("/accounts/signup/", $("#registerFormPlayer").serialize(), function(data, status) {
         data = JSON.parse(data);
-
+        
         if (status === "success" && data.success) {
             $("#alertSuccess").removeClass("d-none");
+        } else {
+            if (data.success == false) {
+                if (data.errorMsg == undefined) {
+                    $("#alertFailure").removeClass("d-none");
+                } else {
+                    if (data.player) {
+                        $("#registerFormPlayer").addClass("active");
+                        $("#registerFormDeveloper").removeClass("active");
+                        $("#errorPlayer").text(data.errorMsg);
+                        $("#errorDeveloper").text("");
+                    } else {
+                        $("#registerFormPlayer").removeClass("active");
+                        $("#registerFormDeveloper").addClass("active");
+                        $("#errorDeveloper").text(data.errorMsg)
+                        $("#errorPlayer").text("");
+                    }
+                }
+            }
         }
         registerBtn.addClass("active");
     });
@@ -15,6 +33,24 @@ function afterRegisterDev(registerBtn) {
 
         if (status === "success" && data.success) {
             $("#alertSuccess").removeClass("d-none");
+        } else {
+            if (data.success == false) {
+                if (data.errorMsg == undefined) {
+                    $("#alertFailure").removeClass("d-none");
+                } else {
+                    if (data.player) {
+                        $("#registerFormPlayer").addClass("active");
+                        $("#registerFormDeveloper").removeClass("active");
+                        $("#errorPlayer").text(data.errorMsg);
+                        $("#errorDeveloper").text("");
+                    } else {
+                        $("#registerFormPlayer").removeClass("active");
+                        $("#registerFormDeveloper").addClass("active");
+                        $("#errorDeveloper").text(data.errorMsg)
+                        $("#errorPlayer").text("");
+                    }
+                }
+            }
         }
         registerBtn.addClass("active");
     });
