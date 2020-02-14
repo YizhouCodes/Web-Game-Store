@@ -104,7 +104,7 @@ The index page has a carousel-view showcasing the games available and also lists
 
 **Developer**
 
-As a developer you have to register using the developer-tab. The registration through Facebook is not available to developers. Everything else works the same way as with a player.
+As a developer you have to register using the developer-tab. The registration through Facebook is not available to developers. The "Payment ID"-field should be: **YXOizFdTRC1Qcm9qZWN0**
 
 The developer has access to the same features as the player in the index page. On the page of a specific game the developer can't write reviews or purchase games. On "my games"-page the developer can see the games that they created and also create a new game. This is done by filling in the fields and submitting the form. 
 
