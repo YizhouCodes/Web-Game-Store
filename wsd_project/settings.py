@@ -28,10 +28,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ng)ue$mu8gle_qgsxg^53o5(#03*s&8@@jn=1x@w9c-nr@@k81'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-#ALLOWED_HOSTS = ['radiant-refuge-85599.herokuapp.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['radiant-refuge-85599.herokuapp.com']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 ]
 
-SITE_ID = 1 #2
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,15 +93,15 @@ WSGI_APPLICATION = 'wsd_project.wsgi.application'
 DATABASES = {
     'default': {
 
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 
-      # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #    'NAME': 'dbvk8klaedma8j',
-    #    'USER': 'pzdxcfphuenoqv',
-    #    'PASSWORD': 'd22f935736236a3c788ca56115ba552fb3845f686c6779feda9adc59dac7a5a0',
-    #    'HOST': 'ec2-54-83-55-122.compute-1.amazonaws.com',
-    #    'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dbvk8klaedma8j',
+        'USER': 'pzdxcfphuenoqv',
+        'PASSWORD': 'd22f935736236a3c788ca56115ba552fb3845f686c6779feda9adc59dac7a5a0',
+        'HOST': 'ec2-54-83-55-122.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
