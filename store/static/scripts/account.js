@@ -4,6 +4,8 @@ function afterRegister(registerBtn) {
         
         if (status === "success" && data.success) {
             $("#alertSuccess").removeClass("d-none");
+            $("#errorDeveloper").text("");
+            $("#errorPlayer").text("");
         } else {
             if (data.success == false) {
                 if (data.errorMsg == undefined) {
@@ -33,6 +35,8 @@ function afterRegisterDev(registerBtn) {
 
         if (status === "success" && data.success) {
             $("#alertSuccess").removeClass("d-none");
+            $("#errorDeveloper").text("");
+            $("#errorPlayer").text("");
         } else {
             if (data.success == false) {
                 if (data.errorMsg == undefined) {

@@ -25,7 +25,6 @@ class GeneralUser(AbstractUser):
     def is_developer(self):
         return self.user_type == GeneralUser.DEVELOPER
 
-
 class Game(models.Model):
     title = models.CharField(max_length=256)
     developer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
